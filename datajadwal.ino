@@ -4,7 +4,7 @@ void formating(void)
   // if (updateDPray>0)
   // {
 
-  // getPdata(imnt, iday);
+  getPdata(imnt, iday);
   for (size_t i = 0; i < 5; i++)
   {
     dPraySche[i][0] = dPray[i] / 100;
