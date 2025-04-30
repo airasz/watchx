@@ -3,8 +3,7 @@
 //  methode: usb or software serial
 
 #include <SPI.h>
-#define FS_NO_GLOBALS
-#include <FS.h>
+// #define FS_NO_GLOBALS
 #include <SoftwareSerial.h>
 // #include <Tone32.h>
 // #include "pitches.h"
@@ -20,7 +19,11 @@
 #include <GxEPD2_BW.h>
 #include <GxEPD2_3C.h>
 #include <Fonts/FreeMonoBold9pt7b.h>
+#include <Fonts/FreeSans9pt7b.h>
 
+#include <FS.h>
+
+File dbFile;
 // ESP32 CS(SS)=5,SCL(SCK)=18,SDA(MOSI)=23,BUSY=15,RES(RST)=2,DC=0
 
 // 1.54'' EPD Module
@@ -102,7 +105,14 @@ void setup(void)
   display.hibernate();
 
   pinMode(12, OUTPUT);
-
+  if (!SPIFFS.begin(true))
+  {
+    Serial.println(F("An Error has occurred while mounting SPIFFS"));
+  }
+  // else
+  // {
+  //   startScreen(true, "success mount SPIFFS");
+  // }
   // large block of text
   // // tft.fillScreen(TFT_BLACK);
   // testdrawtext("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur adipiscing ante sed nibh tincidunt feugiat. Maecenas enim massa, fringilla sed malesuada et, malesuada sit amet turpis. Sed porttitor neque ut ante pretium vitae malesuada nunc bibendum. Nullam aliquet ultrices massa eu hendrerit. Ut sed nisi lorem. In vestibulum purus a tortor imperdiet posuere. ", TFT_WHITE);
@@ -633,7 +643,7 @@ void printtextcs(
   // tft.loadFont(sfpt_r14);
 }
 
-void printTextWin(int winx, int winy, int width, int height, String text)
+void printTextWin(int winx, int winy, int width, int height, String text, bool drawframe)
 {
   display.setRotation(3);
   display.setFont(&FreeMonoBold9pt7b);
@@ -644,9 +654,11 @@ void printTextWin(int winx, int winy, int width, int height, String text)
   do
   {
     display.fillRect(winx, winy, width, height, GxEPD_WHITE);
+    if (drawframe)
+      display.drawRect(winx, winy, width, height, GxEPD_BLACK);
     display.drawCircle(50, 50, 40, GxEPD_BLACK);
 
-    display.setCursor(0, 0);
+    display.setCursor(winx, winy + 10);
     display.print(text);
   } while (display.nextPage());
 }
@@ -659,8 +671,8 @@ void printText(int x, int y, String text)
   display.firstPage();
   do
   {
-    display.fillScreen(GxEPD_WHITE);
-
+    // display.fillScreen(GxEPD_WHITE);
+    display.fillRect(0, 0, 200, 200, GxEPD_WHITE);
     display.drawCircle(50, 50, 40, GxEPD_BLACK);
     display.setCursor(x, y);
     display.print(text);
@@ -701,7 +713,13 @@ void drawClockFace()
 void printClock()
 {
   String date = timeClient.getFullFormattedTime();
+  hh = timeClient.getHours(), mm = timeClient.getMinutes(), ss = timeClient.getSeconds();
   date.replace(" ", "\n");
   // printText(0, random(50, 150), date);
-  printTextWin(random(60), random(60), 120, 120, date);
+
+  printText(0, 12, date);
+  // printText(0, random(50, 150), date);
+  showDayPray();
+
+  // printTextWin(random(60), random(60), 120, 120, date, true);
 }
