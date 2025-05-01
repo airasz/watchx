@@ -119,7 +119,7 @@
 #define FSBI18 &FreeSerifBoldItalic18pt7b
 #define FSBI24 &FreeSerifBoldItalic24pt7b
 
-#define FF0 NULL //ff0 reserved for GLCD
+#define FF0 NULL // ff0 reserved for GLCD
 #define FF1 &FreeMono9pt7b
 #define FF2 &FreeMono12pt7b
 #define FF3 &FreeMono18pt7b
@@ -246,7 +246,7 @@
 
 #define sFF45 "Serif bold italic 9"
 #define sFF46 "Serif bold italic 12"
-#define sFF47 "Serif bold italic 18"
+#define sFF47 "Serif bold italic 18" FreeSans9pt7b
 #define sFF48 "Serif bold italic 24"
 
 #else // LOAD_GFXFF not defined so setup defaults to prevent error messages

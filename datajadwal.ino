@@ -3,12 +3,23 @@ void formating(void)
 {
   // if (updateDPray>0)
   // {
-
+  if (timeClient.getYear() == 1970)
+  {
+    timeClient.update();
+  }
+  else
+  {
+    WiFi.mode(WIFI_OFF);
+    setCpuFrequencyMhz(20);
+  }
+  imnt = timeClient.getMonth(), iday = timeClient.getDate();
+  Serial.printf("mnt : %d | day %d\n", imnt, iday);
   getPdata(imnt, iday);
   for (size_t i = 0; i < 5; i++)
   {
     dPraySche[i][0] = dPray[i] / 100;
     dPraySche[i][1] = dPray[i] - ((dPray[i] / 100) * 100);
+    // Serial.printf(" dPraySche : %d | %d\n", dPraySche[i][0], dPraySche[i][1]);
   }
 
   jsu = dPray[0] / 100;
@@ -95,12 +106,12 @@ String getDailyJWS(int id)
     }
   }
   String pname = prayName[id][0];
-  for (size_t i = prayName[id][0].length(); i < 10; i++)
+  for (size_t i = prayName[id][0].length(); i < 8; i++)
   {
     pname += " ";
   }
 
-  sprintf(jadwal, "%s> %02i:%02i", pname, dPraySche[id][0], dPraySche[id][1]);
+  sprintf(jadwal, "%s  %02i:%02i", pname, dPraySche[id][0], dPraySche[id][1]);
   // switch (id)
   // {
   // case 0:
