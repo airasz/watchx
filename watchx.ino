@@ -8,6 +8,8 @@
 // #include <Tone32.h>
 // #include "pitches.h"
 // #include "fonts.h"
+
+// #include "Free_Fonts.h"
 #include "watchx.h"
 #include <TimeLib.h>
 
@@ -22,126 +24,126 @@
 #include <Fonts/FreeMonoBold9pt7b.h>
 #include <Fonts/FreeSans9pt7b.h>
 
-#include <Fonts/FreeMono9pt7b.h>
-#include <Fonts/FreeMono12pt7b.h>
-#include <Fonts/FreeMono18pt7b.h>
-#include <Fonts/FreeMono24pt7b.h>
+// #include <Fonts/FreeMono9pt7b.h>
+// #include <Fonts/FreeMono12pt7b.h>
+// #include <Fonts/FreeMono18pt7b.h>
+// #include <Fonts/FreeMono24pt7b.h>
+
+// // #include <Fonts/FreeMonoBold9pt7b.h>
+// #include <Fonts/FreeMonoBold12pt7b.h>
+// #include <Fonts/FreeMonoBold18pt7b.h>
+// #include <Fonts/FreeMonoBold24pt7b.h>
+
+// #include <Fonts/FreeMonoOblique9pt7b.h>
+// #include <Fonts/FreeMonoOblique12pt7b.h>
+// #include <Fonts/FreeMonoOblique18pt7b.h>
+// #include <Fonts/FreeMonoOblique24pt7b.h>
+
+// #include <Fonts/FreeMonoBoldOblique9pt7b.h>
+// #include <Fonts/FreeMonoBoldOblique12pt7b.h>
+// #include <Fonts/FreeMonoBoldOblique18pt7b.h>
+// #include <Fonts/FreeMonoBoldOblique24pt7b.h>
+
+// // #include <Fonts/FreeSans9pt7b.h>
+// #include <Fonts/FreeSans12pt7b.h>
+// #include <Fonts/FreeSans18pt7b.h>
+// #include <Fonts/FreeSans24pt7b.h>
+
+// #include <Fonts/FreeSansBold9pt7b.h>
+// #include <Fonts/FreeSansBold12pt7b.h>
+// #include <Fonts/FreeSansBold18pt7b.h>
+// #include <Fonts/FreeSansBold24pt7b.h>
+
+// #include <Fonts/FreeSansOblique9pt7b.h>
+// #include <Fonts/FreeSansOblique12pt7b.h>
+// #include <Fonts/FreeSansOblique18pt7b.h>
+// #include <Fonts/FreeSansOblique24pt7b.h>
+
+// #include <Fonts/FreeSansBoldOblique9pt7b.h>
+// #include <Fonts/FreeSansBoldOblique12pt7b.h>
+// #include <Fonts/FreeSansBoldOblique18pt7b.h>
+// #include <Fonts/FreeSansBoldOblique24pt7b.h>
+
+// #include <Fonts/FreeSerif9pt7b.h>
+// #include <Fonts/FreeSerif12pt7b.h>
+// #include <Fonts/FreeSerif18pt7b.h>
+// #include <Fonts/FreeSerif24pt7b.h>
+
+// #include <Fonts/FreeSerifItalic9pt7b.h>
+// #include <Fonts/FreeSerifItalic12pt7b.h>
+// #include <Fonts/FreeSerifItalic18pt7b.h>
+// #include <Fonts/FreeSerifItalic24pt7b.h>
+
+// #include <Fonts/FreeSerifBold9pt7b.h>
+// #include <Fonts/FreeSerifBold12pt7b.h>
+// #include <Fonts/FreeSerifBold18pt7b.h>
+// #include <Fonts/FreeSerifBold24pt7b.h>
+
+// #include <Fonts/FreeSerifBoldItalic9pt7b.h>
+// #include <Fonts/FreeSerifBoldItalic12pt7b.h>
+// #include <Fonts/FreeSerifBoldItalic18pt7b.h>
+// #include <Fonts/FreeSerifBoldItalic24pt7b.h>
+
+// #define FF0 NULL // ff0 reserved for GLCD
+// #include <Fonts/FreeMono9pt7b.h>
+// #include <Fonts/FreeMono12pt7b.h>
+// #include <Fonts/FreeMono18pt7b.h>
+// #include <Fonts/FreeMono24pt7b.h>
 
 // #include <Fonts/FreeMonoBold9pt7b.h>
 #include <Fonts/FreeMonoBold12pt7b.h>
 #include <Fonts/FreeMonoBold18pt7b.h>
 #include <Fonts/FreeMonoBold24pt7b.h>
 
-#include <Fonts/FreeMonoOblique9pt7b.h>
-#include <Fonts/FreeMonoOblique12pt7b.h>
-#include <Fonts/FreeMonoOblique18pt7b.h>
-#include <Fonts/FreeMonoOblique24pt7b.h>
+// #include <Fonts/FreeMonoOblique9pt7b.h>
+// #include <Fonts/FreeMonoOblique12pt7b.h>
+// #include <Fonts/FreeMonoOblique18pt7b.h>
+// #include <Fonts/FreeMonoOblique24pt7b.h>
 
-#include <Fonts/FreeMonoBoldOblique9pt7b.h>
-#include <Fonts/FreeMonoBoldOblique12pt7b.h>
-#include <Fonts/FreeMonoBoldOblique18pt7b.h>
-#include <Fonts/FreeMonoBoldOblique24pt7b.h>
+// #include <Fonts/FreeMonoBoldOblique9pt7b.h>
+// #include <Fonts/FreeMonoBoldOblique12pt7b.h>
+// #include <Fonts/FreeMonoBoldOblique18pt7b.h>
+// #include <Fonts/FreeMonoBoldOblique24pt7b.h>
 
 // #include <Fonts/FreeSans9pt7b.h>
-#include <Fonts/FreeSans12pt7b.h>
-#include <Fonts/FreeSans18pt7b.h>
-#include <Fonts/FreeSans24pt7b.h>
+// #include <Fonts/FreeSans12pt7b.h>
+// #include <Fonts/FreeSans18pt7b.h>
+// #include <Fonts/FreeSans24pt7b.h>
 
-#include <Fonts/FreeSansBold9pt7b.h>
-#include <Fonts/FreeSansBold12pt7b.h>
-#include <Fonts/FreeSansBold18pt7b.h>
-#include <Fonts/FreeSansBold24pt7b.h>
+// #include <Fonts/FreeSansBold9pt7b.h>
+// #include <Fonts/FreeSansBold12pt7b.h>
+// #include <Fonts/FreeSansBold18pt7b.h>
+// #include <Fonts/FreeSansBold24pt7b.h>
 
-#include <Fonts/FreeSansOblique9pt7b.h>
-#include <Fonts/FreeSansOblique12pt7b.h>
-#include <Fonts/FreeSansOblique18pt7b.h>
-#include <Fonts/FreeSansOblique24pt7b.h>
+// #include <Fonts/FreeSansOblique9pt7b.h>
+// #include <Fonts/FreeSansOblique12pt7b.h>
+// #include <Fonts/FreeSansOblique18pt7b.h>
+// #include <Fonts/FreeSansOblique24pt7b.h>
 
-#include <Fonts/FreeSansBoldOblique9pt7b.h>
-#include <Fonts/FreeSansBoldOblique12pt7b.h>
-#include <Fonts/FreeSansBoldOblique18pt7b.h>
-#include <Fonts/FreeSansBoldOblique24pt7b.h>
+// #include <Fonts/FreeSansBoldOblique9pt7b.h>
+// #include <Fonts/FreeSansBoldOblique12pt7b.h>
+// #include <Fonts/FreeSansBoldOblique18pt7b.h>
+// #include <Fonts/FreeSansBoldOblique24pt7b.h>
 
-#include <Fonts/FreeSerif9pt7b.h>
-#include <Fonts/FreeSerif12pt7b.h>
-#include <Fonts/FreeSerif18pt7b.h>
-#include <Fonts/FreeSerif24pt7b.h>
+// #include <Fonts/FreeSerif9pt7b.h>
+// #include <Fonts/FreeSerif12pt7b.h>
+// #include <Fonts/FreeSerif18pt7b.h>
+// #include <Fonts/FreeSerif24pt7b.h>
 
-#include <Fonts/FreeSerifItalic9pt7b.h>
-#include <Fonts/FreeSerifItalic12pt7b.h>
-#include <Fonts/FreeSerifItalic18pt7b.h>
-#include <Fonts/FreeSerifItalic24pt7b.h>
+// #include <Fonts/FreeSerifItalic9pt7b.h>
+// #include <Fonts/FreeSerifItalic12pt7b.h>
+// #include <Fonts/FreeSerifItalic18pt7b.h>
+// #include <Fonts/FreeSerifItalic24pt7b.h>
 
-#include <Fonts/FreeSerifBold9pt7b.h>
-#include <Fonts/FreeSerifBold12pt7b.h>
-#include <Fonts/FreeSerifBold18pt7b.h>
-#include <Fonts/FreeSerifBold24pt7b.h>
+// #include <Fonts/FreeSerifBold9pt7b.h>
+// #include <Fonts/FreeSerifBold12pt7b.h>
+// #include <Fonts/FreeSerifBold18pt7b.h>
+// #include <Fonts/FreeSerifBold24pt7b.h>
 
-#include <Fonts/FreeSerifBoldItalic9pt7b.h>
-#include <Fonts/FreeSerifBoldItalic12pt7b.h>
-#include <Fonts/FreeSerifBoldItalic18pt7b.h>
-#include <Fonts/FreeSerifBoldItalic24pt7b.h>
-
-#define FF0 NULL // ff0 reserved for GLCD
-#include <Fonts/FreeMono9pt7b.h>
-#include <Fonts/FreeMono12pt7b.h>
-#include <Fonts/FreeMono18pt7b.h>
-#include <Fonts/FreeMono24pt7b.h>
-
-#include <Fonts/FreeMonoBold9pt7b.h>
-#include <Fonts/FreeMonoBold12pt7b.h>
-#include <Fonts/FreeMonoBold18pt7b.h>
-#include <Fonts/FreeMonoBold24pt7b.h>
-
-#include <Fonts/FreeMonoOblique9pt7b.h>
-#include <Fonts/FreeMonoOblique12pt7b.h>
-#include <Fonts/FreeMonoOblique18pt7b.h>
-#include <Fonts/FreeMonoOblique24pt7b.h>
-
-#include <Fonts/FreeMonoBoldOblique9pt7b.h>
-#include <Fonts/FreeMonoBoldOblique12pt7b.h>
-#include <Fonts/FreeMonoBoldOblique18pt7b.h>
-#include <Fonts/FreeMonoBoldOblique24pt7b.h>
-
-#include <Fonts/FreeSans9pt7b.h>
-#include <Fonts/FreeSans12pt7b.h>
-#include <Fonts/FreeSans18pt7b.h>
-#include <Fonts/FreeSans24pt7b.h>
-
-#include <Fonts/FreeSansBold9pt7b.h>
-#include <Fonts/FreeSansBold12pt7b.h>
-#include <Fonts/FreeSansBold18pt7b.h>
-#include <Fonts/FreeSansBold24pt7b.h>
-
-#include <Fonts/FreeSansOblique9pt7b.h>
-#include <Fonts/FreeSansOblique12pt7b.h>
-#include <Fonts/FreeSansOblique18pt7b.h>
-#include <Fonts/FreeSansOblique24pt7b.h>
-
-#include <Fonts/FreeSansBoldOblique9pt7b.h>
-#include <Fonts/FreeSansBoldOblique12pt7b.h>
-#include <Fonts/FreeSansBoldOblique18pt7b.h>
-#include <Fonts/FreeSansBoldOblique24pt7b.h>
-
-#include <Fonts/FreeSerif9pt7b.h>
-#include <Fonts/FreeSerif12pt7b.h>
-#include <Fonts/FreeSerif18pt7b.h>
-#include <Fonts/FreeSerif24pt7b.h>
-
-#include <Fonts/FreeSerifItalic9pt7b.h>
-#include <Fonts/FreeSerifItalic12pt7b.h>
-#include <Fonts/FreeSerifItalic18pt7b.h>
-#include <Fonts/FreeSerifItalic24pt7b.h>
-
-#include <Fonts/FreeSerifBold9pt7b.h>
-#include <Fonts/FreeSerifBold12pt7b.h>
-#include <Fonts/FreeSerifBold18pt7b.h>
-#include <Fonts/FreeSerifBold24pt7b.h>
-
-#include <Fonts/FreeSerifBoldItalic9pt7b.h>
-#include <Fonts/FreeSerifBoldItalic12pt7b.h>
-#include <Fonts/FreeSerifBoldItalic18pt7b.h>
-#include <Fonts/FreeSerifBoldItalic24pt7b.h>
+// #include <Fonts/FreeSerifBoldItalic9pt7b.h>
+// #include <Fonts/FreeSerifBoldItalic12pt7b.h>
+// #include <Fonts/FreeSerifBoldItalic18pt7b.h>
+// #include <Fonts/FreeSerifBoldItalic24pt7b.h>
 #include <FS.h>
 
 File dbFile;
@@ -320,7 +322,7 @@ void loop()
   }
   if (millis() > prevmill + 1000)
   {
-    if (second() == 0)
+    if (second() == 1)
       drawClockFace();
     display.hibernate();
     if (dmode == 10)
@@ -358,6 +360,22 @@ void loop()
   }
   beepnblink(); // beepnblink.ino
 } // end loop
+void fixClock()
+{
+  if (timeClient.getYear() == 1970)
+  {
+    timeClient.update();
+    setTime(timeClient.getHours(), timeClient.getMinutes(), timeClient.getSeconds(),
+            timeClient.getDay(), timeClient.getMonth(), timeClient.getYear());
+    imnt = timeClient.getMonth(), iday = timeClient.getDate();
+  }
+  else
+  {
+
+    WiFi.mode(WIFI_OFF);
+    setCpuFrequencyMhz(20);
+  }
+}
 int displaylivescore = 0;
 void proccesCMD(String data)
 {
@@ -786,11 +804,53 @@ void printTextWin(int winx, int winy, int width, int height, String text, bool d
     display.print(text);
   } while (display.nextPage());
 }
+
+void printTextWin(int winx, int winy, int width, int height, int fontsize, String text, bool drawframe)
+{
+
+  display.setRotation(3);
+  display.setFont(&FreeMonoBold9pt7b);
+  display.setTextColor(GxEPD_BLACK);
+  if (fontsize == 9)
+  {
+    display.setFont(&FreeMonoBold9pt7b);
+  }
+  else if (fontsize == 12)
+  {
+    display.setFont(&FreeMonoBold12pt7b);
+  }
+  else if (fontsize == 18)
+  {
+    display.setFont(&FreeMonoBold18pt7b);
+  }
+  else if (fontsize == 24)
+  {
+    display.setFont(&FreeMonoBold24pt7b);
+  }
+  else
+  {
+    display.setFont(&FreeMonoBold9pt7b);
+  }
+  display.setPartialWindow(winx, winy, width, height);
+  // display.setFullWindow();
+  display.firstPage();
+  do
+  {
+    display.fillRect(winx, winy, width, height, GxEPD_WHITE);
+    if (drawframe)
+      display.drawRect(winx, winy, width, height, GxEPD_BLACK);
+    // display.drawCircle(50, 50, 40, GxEPD_BLACK);
+
+    display.setCursor(winx, winy + 10);
+    display.print(text);
+  } while (display.nextPage());
+}
 void printText2(int x, int y, String text, bool flush = false)
 {
   display.setRotation(3);
   // display.setFont(&FreeSansBold9pt7b);
-  display.setFont(FMBO9);
+  display.setFont(&FreeMonoBold9pt7b);
+  // display.setFont(FMBO9);
   display.setTextColor(GxEPD_BLACK);
 
   (flush) ? display.setFullWindow() : display.setPartialWindow(x, y, 200 - x, 200 - y);
@@ -804,6 +864,39 @@ void printText2(int x, int y, String text, bool flush = false)
   } while (display.nextPage());
 }
 
+void printText2(int x, int y, int fontsize, String text, bool flush = false)
+{
+  if (fontsize == 9)
+  {
+    display.setFont(&FreeMonoBold9pt7b);
+  }
+  else if (fontsize == 12)
+  {
+    display.setFont(&FreeMonoBold12pt7b);
+  }
+  else if (fontsize == 18)
+  {
+    display.setFont(&FreeMonoBold18pt7b);
+  }
+  else if (fontsize == 24)
+  {
+    display.setFont(&FreeMonoBold24pt7b);
+  }
+  else
+  {
+    display.setFont(&FreeMonoBold9pt7b);
+  }
+
+  (flush) ? display.setFullWindow() : display.setPartialWindow(x, y, 200 - x, 200 - y);
+  display.firstPage();
+  do
+  {
+    if (flush)
+      display.fillScreen(GxEPD_WHITE);
+    display.setCursor(x, y + 12);
+    display.print(text);
+  } while (display.nextPage());
+}
 void printText(int x, int y, String text)
 {
   display.setRotation(3);
@@ -868,6 +961,17 @@ void drawClockFace()
 }
 void printClock()
 {
+  fixClock();
+
+  // standartFace();
+  javaneseFace();
+  // printText(0, random(50, 150), date);
+
+  digitalWrite(2, LOW);
+  // printTextWin(random(60), random(60), 120, 120, date, true);
+}
+void standartFace()
+{
   String date = timeClient.getFullFormattedTime();
   date = date.substring(0, (date.length() - 3)); // trim second
   hh = timeClient.getHours(), mm = timeClient.getMinutes(), ss = timeClient.getSeconds();
@@ -878,9 +982,117 @@ void printClock()
 
   digitalWrite(2, HIGH);
   printTextWin(0, 0, 200, 32, date, false);
-  // printText(0, random(50, 150), date);
-  showDayPray();
 
-  digitalWrite(2, LOW);
-  // printTextWin(random(60), random(60), 120, 120, date, true);
+  showDayPray();
+}
+
+void javaneseFace()
+{
+
+  // tnow = ttgo->rtc->getDateTime();
+  int currentHour = timeClient.getHours();
+  int currentMinute = timeClient.getMinutes();
+  String word, word1, word2;
+  if (currentMinute < 40)
+  {
+    if (currentMinute == 30)
+    {
+
+      word = minuteTOword(currentMinute);
+      word1 = "\n" + (currentHour == 23) ? "    " : "   ";
+      word2 = jamTOword(currentHour - ((currentHour == 23) ? 11 : (-1)));
+    }
+    else if (currentMinute == 0 || currentMinute == 15)
+    {
+      word = jamTOword(currentHour);
+      word1 = " \n    ";
+      word2 = minuteTOword(currentMinute);
+    }
+    else
+    {
+      word = jamTOword(currentHour);
+      word1 = "\n  luwih\n   ";
+      word2 = minuteTOword(currentMinute);
+    }
+  }
+  else
+  {
+
+    word = jamTOword(currentHour + 1);
+    word1 = "\n   kurang\n      ";
+    word2 = minuteTOword(currentMinute);
+  }
+  String allword = word + word1 + word2;
+  allword.replace(" ", "");
+  // printTextWin(0, 0, 200, 32, allword, false);
+
+  // display.setFont(&FreeMonoBold24pt7b);
+  display.setTextWrap(true);
+  printText2(0, random(20, 50), 18, allword, true);
+  // if (currentMinute < 40)
+  // {
+  //   if (currentMinute == 30)
+  //   {
+
+  //     word = minuteTOword(currentMinute);
+  //     word1 = "\n" + (currentHour == 23) ? "    " : "   ";
+  //     word2 = jamTOword(currentHour - ((currentHour == 23) ? 11 : (-1)));
+  //     // if (currentHour == 23)
+  //     // {
+  //     //   word = minuteTOword(currentMinute);
+  //     //   word1 = "\n    ";
+  //     //   word2 = jamTOword(currentHour - 11);
+  //     // }
+  //     // else
+  //     // {
+  //     //   word = minuteTOword(currentMinute);
+  //     //   word1 = "\n   ";
+  //     //   word2 = jamTOword(currentHour + 1);
+  //     // }
+  //   }
+  //   else if (currentMinute == 0 || currentMinute == 15)
+  //   {
+  //     word = jamTOword(currentHour);
+  //     word1 = " \n    ";
+  //     word2 = minuteTOword(currentMinute);
+  //   }
+  //   else
+  //   {
+  //     word = jamTOword(currentHour);
+  //     word1 = "\n  luwih        ";
+  //     word2 = minuteTOword(currentMinute);
+  //   }
+  // }
+  // else
+  // {
+
+  //   word = jamTOword(currentHour + 1);
+  //   word1 = "\n   kurang      ";
+  //   word2 = minuteTOword(currentMinute);
+  // }
+  // int totalLength = word.length() + word1.length() + word2.length();
+  // Serial.printf("clock face text, total length =  %d\n ", totalLength);
+  // if (totalLength > 35 && totalLength < 45)
+  //   tft->setCursor(random(0, 3), random(60, 65));
+  // else if (totalLength > 15 && totalLength < 36)
+  //   tft->setCursor(random(0, 3), random(80, 110));
+  // else
+  //   tft->setCursor(random(0, 3), random(90, 110));
+
+  // // tft->setCursor(random(3, 12), random(50, 110));
+  // (word.length() > 7) ? setupFont18() : setupFont24();
+  // tft->print(word);
+
+  // setupFont12();
+  // tft->setTextColor(COLORS_LIGHT[random(10)]);
+  // tft->print(word1);
+  // if (word1.length() > 5)
+  // {
+  //   setupFont18();
+  //   tft->print(" \n");
+  // }
+
+  // (word2.length() > 10) ? setupFont12() : setupFont18();
+  // tft->setTextColor(COLORS_LIGHT[random(10)]);
+  // tft->print(word2);
 }

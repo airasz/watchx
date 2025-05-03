@@ -3,15 +3,15 @@ void formating(void)
 {
   // if (updateDPray>0)
   // {
-  if (timeClient.getYear() == 1970)
-  {
-    timeClient.update();
-  }
-  else
-  {
-    WiFi.mode(WIFI_OFF);
-    setCpuFrequencyMhz(20);
-  }
+  // if (timeClient.getYear() == 1970)
+  // {
+  //   timeClient.update();
+  // }
+  // else
+  // {
+  //   WiFi.mode(WIFI_OFF);
+  //   setCpuFrequencyMhz(20);
+  // }
   imnt = timeClient.getMonth(), iday = timeClient.getDate();
   Serial.printf("mnt : %d | day %d\n", imnt, iday);
   getPdata(imnt, iday);
