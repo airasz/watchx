@@ -11,7 +11,7 @@
 #include <ArduinoJson.h>
 #include <SPIFFS.h>
 #include "stringres.h"
-// #include "Free_Fonts.h"
+#include "Free_Fonts.h"
 #include "mathematicalize.h"
 // #include <LittleFS.h>
 

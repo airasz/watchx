@@ -1,7 +1,8 @@
 // Created by:  Airasz
 // board esp8266: 1MB/256KBFS, 80mhzCPU, 25MhZcrystalFreq
 //  methode: usb or software serial
-
+#include "soc/soc.h"
+#include "soc/rtc_cntl_reg.h"
 #include <SPI.h>
 // #define FS_NO_GLOBALS
 #include <SoftwareSerial.h>
@@ -21,8 +22,189 @@
 
 #include <GxEPD2_BW.h>
 #include <GxEPD2_3C.h>
+
+#include <Fonts/FreeMono9pt7b.h>
+#include <Fonts/FreeMono12pt7b.h>
+#include <Fonts/FreeMono18pt7b.h>
+#include <Fonts/FreeMono24pt7b.h>
+
 #include <Fonts/FreeMonoBold9pt7b.h>
+#include <Fonts/FreeMonoBold12pt7b.h>
+#include <Fonts/FreeMonoBold18pt7b.h>
+#include <Fonts/FreeMonoBold24pt7b.h>
+
+#include <Fonts/FreeMonoOblique9pt7b.h>
+#include <Fonts/FreeMonoOblique12pt7b.h>
+#include <Fonts/FreeMonoOblique18pt7b.h>
+#include <Fonts/FreeMonoOblique24pt7b.h>
+
+#include <Fonts/FreeMonoBoldOblique9pt7b.h>
+#include <Fonts/FreeMonoBoldOblique12pt7b.h>
+#include <Fonts/FreeMonoBoldOblique18pt7b.h>
+#include <Fonts/FreeMonoBoldOblique24pt7b.h>
+
 #include <Fonts/FreeSans9pt7b.h>
+#include <Fonts/FreeSans12pt7b.h>
+#include <Fonts/FreeSans18pt7b.h>
+#include <Fonts/FreeSans24pt7b.h>
+
+#include <Fonts/FreeSansBold9pt7b.h>
+#include <Fonts/FreeSansBold12pt7b.h>
+#include <Fonts/FreeSansBold18pt7b.h>
+#include <Fonts/FreeSansBold24pt7b.h>
+
+#include <Fonts/FreeSansOblique9pt7b.h>
+#include <Fonts/FreeSansOblique12pt7b.h>
+#include <Fonts/FreeSansOblique18pt7b.h>
+#include <Fonts/FreeSansOblique24pt7b.h>
+
+#include <Fonts/FreeSansBoldOblique9pt7b.h>
+#include <Fonts/FreeSansBoldOblique12pt7b.h>
+#include <Fonts/FreeSansBoldOblique18pt7b.h>
+#include <Fonts/FreeSansBoldOblique24pt7b.h>
+
+#include <Fonts/FreeSerif9pt7b.h>
+#include <Fonts/FreeSerif12pt7b.h>
+#include <Fonts/FreeSerif18pt7b.h>
+#include <Fonts/FreeSerif24pt7b.h>
+
+#include <Fonts/FreeSerifItalic9pt7b.h>
+#include <Fonts/FreeSerifItalic12pt7b.h>
+#include <Fonts/FreeSerifItalic18pt7b.h>
+#include <Fonts/FreeSerifItalic24pt7b.h>
+
+#include <Fonts/FreeSerifBold9pt7b.h>
+#include <Fonts/FreeSerifBold12pt7b.h>
+#include <Fonts/FreeSerifBold18pt7b.h>
+#include <Fonts/FreeSerifBold24pt7b.h>
+
+#include <Fonts/FreeSerifBoldItalic9pt7b.h>
+#include <Fonts/FreeSerifBoldItalic12pt7b.h>
+#include <Fonts/FreeSerifBoldItalic18pt7b.h>
+#include <Fonts/FreeSerifBoldItalic24pt7b.h>
+
+// #define TT1 &TomThumb
+
+#define FM9 &FreeMono9pt7b
+#define FM12 &FreeMono12pt7b
+#define FM18 &FreeMono18pt7b
+#define FM24 &FreeMono24pt7b
+
+#define FMB9 &FreeMonoBold9pt7b
+#define FMB12 &FreeMonoBold12pt7b
+#define FMB18 &FreeMonoBold18pt7b
+#define FMB24 &FreeMonoBold24pt7b
+
+#define FMO9 &FreeMonoOblique9pt7b
+#define FMO12 &FreeMonoOblique12pt7b
+#define FMO18 &FreeMonoOblique18pt7b
+#define FMO24 &FreeMonoOblique24pt7b
+
+#define FMBO9 &FreeMonoBoldOblique9pt7b
+#define FMBO12 &FreeMonoBoldOblique12pt7b
+#define FMBO18 &FreeMonoBoldOblique18pt7b
+#define FMBO24 &FreeMonoBoldOblique24pt7b
+
+#define FSS9 &FreeSans9pt7b
+#define FSS12 &FreeSans12pt7b
+#define FSS18 &FreeSans18pt7b
+#define FSS24 &FreeSans24pt7b
+
+#define FSSB9 &FreeSansBold9pt7b
+#define FSSB12 &FreeSansBold12pt7b
+#define FSSB18 &FreeSansBold18pt7b
+#define FSSB24 &FreeSansBold24pt7b
+
+#define FSSO9 &FreeSansOblique9pt7b
+#define FSSO12 &FreeSansOblique12pt7b
+#define FSSO18 &FreeSansOblique18pt7b
+#define FSSO24 &FreeSansOblique24pt7b
+
+#define FSSBO9 &FreeSansBoldOblique9pt7b
+#define FSSBO12 &FreeSansBoldOblique12pt7b
+#define FSSBO18 &FreeSansBoldOblique18pt7b
+#define FSSBO24 &FreeSansBoldOblique24pt7b
+
+#define FS9 &FreeSerif9pt7b
+#define FS12 &FreeSerif12pt7b
+#define FS18 &FreeSerif18pt7b
+#define FS24 &FreeSerif24pt7b
+
+#define FSI9 &FreeSerifItalic9pt7b
+#define FSI12 &FreeSerifItalic12pt7b
+#define FSI19 &FreeSerifItalic18pt7b
+#define FSI24 &FreeSerifItalic24pt7b
+
+#define FSB9 &FreeSerifBold9pt7b
+#define FSB12 &FreeSerifBold12pt7b
+#define FSB18 &FreeSerifBold18pt7b
+#define FSB24 &FreeSerifBold24pt7b
+
+#define FSBI9 &FreeSerifBoldItalic9pt7b
+#define FSBI12 &FreeSerifBoldItalic12pt7b
+#define FSBI18 &FreeSerifBoldItalic18pt7b
+#define FSBI24 &FreeSerifBoldItalic24pt7b
+
+#define FF0 NULL // ff0 reserved for GLCD
+#define FF1 &FreeMono9pt7b
+#define FF2 &FreeMono12pt7b
+#define FF3 &FreeMono18pt7b
+#define FF4 &FreeMono24pt7b
+
+#define FF5 &FreeMonoBold9pt7b
+#define FF6 &FreeMonoBold12pt7b
+#define FF7 &FreeMonoBold18pt7b
+#define FF8 &FreeMonoBold24pt7b
+
+#define FF9 &FreeMonoOblique9pt7b
+#define FF10 &FreeMonoOblique12pt7b
+#define FF11 &FreeMonoOblique18pt7b
+#define FF12 &FreeMonoOblique24pt7b
+
+#define FF13 &FreeMonoBoldOblique9pt7b
+#define FF14 &FreeMonoBoldOblique12pt7b
+#define FF15 &FreeMonoBoldOblique18pt7b
+#define FF16 &FreeMonoBoldOblique24pt7b
+
+#define FF17 &FreeSans9pt7b
+#define FF18 &FreeSans12pt7b
+#define FF19 &FreeSans18pt7b
+#define FF20 &FreeSans24pt7b
+
+#define FF21 &FreeSansBold9pt7b
+#define FF22 &FreeSansBold12pt7b
+#define FF23 &FreeSansBold18pt7b
+#define FF24 &FreeSansBold24pt7b
+
+#define FF25 &FreeSansOblique9pt7b
+#define FF26 &FreeSansOblique12pt7b
+#define FF27 &FreeSansOblique18pt7b
+#define FF28 &FreeSansOblique24pt7b
+
+#define FF29 &FreeSansBoldOblique9pt7b
+#define FF30 &FreeSansBoldOblique12pt7b
+#define FF31 &FreeSansBoldOblique18pt7b
+#define FF32 &FreeSansBoldOblique24pt7b
+
+#define FF33 &FreeSerif9pt7b
+#define FF34 &FreeSerif12pt7b
+#define FF35 &FreeSerif18pt7b
+#define FF36 &FreeSerif24pt7b
+
+#define FF37 &FreeSerifItalic9pt7b
+#define FF38 &FreeSerifItalic12pt7b
+#define FF39 &FreeSerifItalic18pt7b
+#define FF40 &FreeSerifItalic24pt7b
+
+#define FF41 &FreeSerifBold9pt7b
+#define FF42 &FreeSerifBold12pt7b
+#define FF43 &FreeSerifBold18pt7b
+#define FF44 &FreeSerifBold24pt7b
+
+#define FF45 &FreeSerifBoldItalic9pt7b
+#define FF46 &FreeSerifBoldItalic12pt7b
+#define FF47 &FreeSerifBoldItalic18pt7b
+#define FF48 &FreeSerifBoldItalic24pt7b
 
 // #include <Fonts/FreeMono9pt7b.h>
 // #include <Fonts/FreeMono12pt7b.h>
@@ -86,14 +268,12 @@
 
 // #define FF0 NULL // ff0 reserved for GLCD
 // #include <Fonts/FreeMono9pt7b.h>
-// #include <Fonts/FreeMono12pt7b.h>
-// #include <Fonts/FreeMono18pt7b.h>
-// #include <Fonts/FreeMono24pt7b.h>
+String allword = Dino[day()];
 
 // #include <Fonts/FreeMonoBold9pt7b.h>
-#include <Fonts/FreeMonoBold12pt7b.h>
-#include <Fonts/FreeMonoBold18pt7b.h>
-#include <Fonts/FreeMonoBold24pt7b.h>
+// #include <Fonts/FreeMonoBold12pt7b.h>
+// #include <Fonts/FreeMonoBold18pt7b.h>
+// #include <Fonts/FreeMonoBold24pt7b.h>
 
 // #include <Fonts/FreeMonoOblique9pt7b.h>
 // #include <Fonts/FreeMonoOblique12pt7b.h>
@@ -144,6 +324,12 @@
 // #include <Fonts/FreeSerifBoldItalic12pt7b.h>
 // #include <Fonts/FreeSerifBoldItalic18pt7b.h>
 // #include <Fonts/FreeSerifBoldItalic24pt7b.h>
+
+// #include <Fonts/FreeMonoBold9pt7b.h>
+// #include <Fonts/FreeSans9pt7b.h>
+// #include <Fonts/FreeMonoBold12pt7b.h>
+// #include <Fonts/FreeMonoBold18pt7b.h>
+// #include <Fonts/FreeMonoBold24pt7b.h>
 #include <FS.h>
 
 File dbFile;
@@ -217,7 +403,7 @@ void setup(void)
   // serial.begin(96050);
   // tone(BUZZER_PIN, tmpNOTE);
   // noTone(BUZZER_PIN);
-
+  WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0);
   display.init(115200, true, 50, false);
 
   if (display.epd2.hasFastPartialUpdate)
@@ -277,9 +463,10 @@ void syncTime()
     Serial.println("has internet, sync device with internet time");
     setTime(timeClient.getHours(), timeClient.getMinutes(), timeClient.getSeconds(),
             timeClient.getDay(), timeClient.getMonth(), timeClient.getYear());
+    Serial.printf("day  : %d \n", timeClient.getDay());
     imnt = timeClient.getMonth(), iday = timeClient.getDate();
     Serial.printf("mnt : %d | day %d\n", imnt, iday);
-    drawClockFace();
+    printClock();
   }
   else
   {
@@ -373,7 +560,7 @@ void fixClock()
   {
 
     WiFi.mode(WIFI_OFF);
-    setCpuFrequencyMhz(20);
+    // setCpuFrequencyMhz(20);
   }
 }
 int displaylivescore = 0;
@@ -788,7 +975,8 @@ void printtextcs(
 void printTextWin(int winx, int winy, int width, int height, String text, bool drawframe)
 {
   display.setRotation(3);
-  display.setFont(&FreeMonoBold9pt7b);
+  // display.setFont(&FreeMonoBold9pt7b);
+  display.setFont(FMB9);
   display.setTextColor(GxEPD_BLACK);
   display.setPartialWindow(winx, winy, width, height);
   // display.setFullWindow();
@@ -809,11 +997,13 @@ void printTextWin(int winx, int winy, int width, int height, int fontsize, Strin
 {
 
   display.setRotation(3);
-  display.setFont(&FreeMonoBold9pt7b);
+  // display.setFont(&FreeMonoBold9pt7b);
+  display.setFont(FMB9);
   display.setTextColor(GxEPD_BLACK);
   if (fontsize == 9)
   {
-    display.setFont(&FreeMonoBold9pt7b);
+    // display.setFont(&FreeMonoBold9pt7b);
+    display.setFont(FMB9);
   }
   else if (fontsize == 12)
   {
@@ -829,7 +1019,8 @@ void printTextWin(int winx, int winy, int width, int height, int fontsize, Strin
   }
   else
   {
-    display.setFont(&FreeMonoBold9pt7b);
+    // display.setFont(&FreeMonoBold9pt7b);
+    display.setFont(FMB9);
   }
   display.setPartialWindow(winx, winy, width, height);
   // display.setFullWindow();
@@ -849,7 +1040,8 @@ void printText2(int x, int y, String text, bool flush = false)
 {
   display.setRotation(3);
   // display.setFont(&FreeSansBold9pt7b);
-  display.setFont(&FreeMonoBold9pt7b);
+  // display.setFont(&FreeMonoBold9pt7b);
+  display.setFont(FMB9);
   // display.setFont(FMBO9);
   display.setTextColor(GxEPD_BLACK);
 
@@ -868,23 +1060,29 @@ void printText2(int x, int y, int fontsize, String text, bool flush = false)
 {
   if (fontsize == 9)
   {
-    display.setFont(&FreeMonoBold9pt7b);
+    // //display.setFont(&FreeMonoBold9pt7b);display.setFont(FMB9);
+    display.setFont(FMB9);
   }
   else if (fontsize == 12)
   {
-    display.setFont(&FreeMonoBold12pt7b);
+    // display.setFont(&FreeMonoBold12pt7b);
+    display.setFont(FMB12);
+    // display.setFont(FSSB12);
   }
   else if (fontsize == 18)
   {
-    display.setFont(&FreeMonoBold18pt7b);
+    // display.setFont(&FreeMonoBold18pt7b);
+    display.setFont(FMB18);
   }
   else if (fontsize == 24)
   {
-    display.setFont(&FreeMonoBold24pt7b);
+    // display.setFont(&FreeMonoBold24pt7b);
+    display.setFont(FMB24);
   }
   else
   {
-    display.setFont(&FreeMonoBold9pt7b);
+    // //display.setFont(&FreeMonoBold9pt7b);display.setFont(FMB9);
+    display.setFont(FMB9);
   }
 
   (flush) ? display.setFullWindow() : display.setPartialWindow(x, y, 200 - x, 200 - y);
@@ -900,7 +1098,8 @@ void printText2(int x, int y, int fontsize, String text, bool flush = false)
 void printText(int x, int y, String text)
 {
   display.setRotation(3);
-  display.setFont(&FreeMonoBold9pt7b);
+  // display.setFont(&FreeMonoBold9pt7b);
+  display.setFont(FMB9);
   display.setTextColor(GxEPD_BLACK);
   display.setFullWindow();
   display.firstPage();
@@ -916,7 +1115,8 @@ void printText(int x, int y, String text)
 void printText(String text, bool flush = false)
 {
   display.setRotation(3);
-  display.setFont(&FreeMonoBold9pt7b);
+  // display.setFont(&FreeMonoBold9pt7b);
+  display.setFont(FMB9);
   display.setTextColor(GxEPD_BLACK);
   // display.setFullWindow();
   display.firstPage();
@@ -932,7 +1132,8 @@ void printText(String text, bool flush = false)
 void printText(String text)
 {
   display.setRotation(3);
-  display.setFont(&FreeMonoBold9pt7b);
+  // display.setFont(&FreeMonoBold9pt7b);
+  display.setFont(FMB9);
   display.setTextColor(GxEPD_BLACK);
   display.setFullWindow();
   display.firstPage();
@@ -961,6 +1162,7 @@ void drawClockFace()
 }
 void printClock()
 {
+  Serial.println("print clock");
   fixClock();
 
   // standartFace();
@@ -968,6 +1170,9 @@ void printClock()
   // printText(0, random(50, 150), date);
 
   digitalWrite(2, LOW);
+
+  Serial.println(getWuku());
+  // Serial.printf("wuku : %s \n", getWuku());
   // printTextWin(random(60), random(60), 120, 120, date, true);
 }
 void standartFace()
@@ -1022,13 +1227,21 @@ void javaneseFace()
     word1 = "\n   kurang\n      ";
     word2 = minuteTOword(currentMinute);
   }
-  String allword = word + word1 + word2;
-  allword.replace(" ", "");
+  // String allword = Dino[day()];
+  String allword = Dino[timeClient.getDay()];
+  allword += " ";
+  allword += pasaran[jumlahhari() % 5];
+  allword += "\n";
+  allword += getWuku();
+  allword += "\n==============\n";
+  String triword = word + word1 + word2;
+  // triword.replace(" ", "");
+  allword += triword;
   // printTextWin(0, 0, 200, 32, allword, false);
 
   // display.setFont(&FreeMonoBold24pt7b);
   display.setTextWrap(true);
-  printText2(0, random(20, 50), 18, allword, true);
+  printText2(0, random(16, 30), 12, allword, true);
   // if (currentMinute < 40)
   // {
   //   if (currentMinute == 30)
@@ -1042,6 +1255,7 @@ void javaneseFace()
   //     //   word = minuteTOword(currentMinute);
   //     //   word1 = "\n    ";
   //     //   word2 = jamTOword(currentHour - 11);
+  // Serial.printf(" hasil2 : %d \n", hasil2);
   //     // }
   //     // else
   //     // {
@@ -1095,4 +1309,78 @@ void javaneseFace()
   // (word2.length() > 10) ? setupFont12() : setupFont18();
   // tft->setTextColor(COLORS_LIGHT[random(10)]);
   // tft->print(word2);
+}
+
+double getJulianDay(int year, int month, int day)
+{
+  if (month < 3)
+  {
+    year--;
+    month += 12;
+  }
+  int a = floor(year / 100.0);
+https: // idn00166.tigoals212.com/football/2734765-bahia-vs-botafogo-rj.html
+  int b = 2 - a + floor(a / 4.0);
+  return floor(365.25 * (year + 4716)) + floor(30.6001 * (month + 1)) + day + b - 1524.5;
+}
+
+// digunakan untuk menghitung hari pasaran
+int jumlahhari()
+{
+  // DateTime now = RTC.now();
+  int d = timeClient.getDate();
+  int m = timeClient.getMonth();
+  int y = timeClient.getYear();
+  int hb[] = {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365};
+  int ht = (y - 1970) * 365 - 1;
+  int hs = hb[m - 1] + d;
+  int kab = 0;
+  int i;
+  if (y % 4 == 0)
+  {
+    if (m > 2)
+    {
+      hs++;
+    }
+  }
+  for (i = 1970; i < y; i++)
+  {
+    if (i % 4 == 0)
+    {
+      kab++;
+    }
+  }
+  return (ht + hs + kab);
+}
+String getWuku()
+{
+  // bulan kurangi 1 kali 4
+  int wu_m = (timeClient.getMonth() - 1) * 4; // step 1
+  if (wu_m == 0)
+    return "exit wum=0";
+  Serial.printf(" wum : %d \n", wu_m);
+
+  // tgl dibagi 7 dibulatkan
+  int wu_d = round(timeClient.getDate() / 7); // step 2
+  Serial.printf(" wud : %d \n", wu_d);
+
+  // int hasil = (wu_m + wu_d > 30) ? (wu_m + wu_d) - 30 : wu_m + wu_d; // step3
+  // jumlahkan hasil keduanya
+  int hasil = wu_m + wu_d;
+
+  Serial.printf(" hasil : %d \n", hasil);
+  int hasil2 = hasil + nnilaiwuku();
+  Serial.printf(" hasil2 : %d \n", hasil2);
+  if (hasil2 > 30)
+    hasil2 -= 30;
+  Serial.printf(" hasil2 fix 30 : %d \n", hasil2);
+  int hasil3 = hasil2 + blnpenyesuaian[timeClient.getMonth()];
+  Serial.printf("hasil3 : %d \n", hasil3);
+  return wuku[hasil3 - 1];
+}
+int nnilaiwuku()
+{
+  int rtr = nilaiwuku[(timeClient.getYear() - 2020)];
+  Serial.printf("now year %d nnilaiwuku : %d \n", timeClient.getYear(), rtr);
+  return rtr;
 }

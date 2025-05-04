@@ -105,7 +105,8 @@ void showDayPray(void)
     sdata = getDailyJWS(i);
     display.setTextColor(GxEPD_BLACK);
     // display.setFont(FF14);
-    display.setFont(&FreeSans9pt7b);
+    // display.setFont(&FreeSans9pt7b);
+    display.setFont(FMB9);
     if (i == ID_)
       sdata = ">" + sdata;
     // printText("> " + sdata + "\n", false);
