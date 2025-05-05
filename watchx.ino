@@ -268,7 +268,7 @@
 
 // #define FF0 NULL // ff0 reserved for GLCD
 // #include <Fonts/FreeMono9pt7b.h>
-String allword = Dino[day()];
+// String pasaranWuku = Dino[day()];
 
 // #include <Fonts/FreeMonoBold9pt7b.h>
 // #include <Fonts/FreeMonoBold12pt7b.h>
@@ -380,7 +380,7 @@ const struct site_t
     {"orangey", "http://192.168.1.120/radio/oradio.php?cmd=status", "title"}};
 char *url = "http://192.168.10.232/radio/oradio.php?cmd=status";
 String sdata;
-
+// String prev_psa
 // SoftwareSerial serial(21, 19);
 
 long prevmill2 = 0;
@@ -411,7 +411,7 @@ void setup(void)
     // showPartialUpdate();
     delay(1000);
   }
-  display.hibernate();
+  // display.hibernate();
 
   pinMode(2, OUTPUT);
   if (!SPIFFS.begin(true))
@@ -511,7 +511,8 @@ void loop()
   {
     if (second() == 1)
       drawClockFace();
-    display.hibernate();
+    else if (second() == 5)
+      display.hibernate();
     if (dmode == 10)
     {
       // Serial.println("analog clock");
@@ -875,103 +876,24 @@ void printSplitString(String text, uint16_t color)
   wordStart = wordEnd;
 }
 
-void printtextbig(
-    String text, uint16_t color)
+void printInWin(int winx, int winy, int width, int height, int cx, int cy, String text, bool flushwin)
 {
 
-  delay(25);
-  int tl = text.length();
-  oldsdata = text;
+  display.setPartialWindow(winx, winy, width, height);
+  // display.setFullWindow();
+  display.firstPage();
+  do
+  {
+    if (flushwin)
+      display.fillRect(winx, winy, width, height, GxEPD_WHITE);
+    // if (drawframe)
+    //   display.drawRect(winx, winy, width, height, GxEPD_BLACK);
+    // display.drawCircle(50, 50, 40, GxEPD_BLACK);
 
-  delay(25);
+    display.setCursor(winx + cx, winy + 10 + cy);
+    display.print(text);
+  } while (display.nextPage());
 }
-void printtextcs(int x, int y,
-                 String text, uint16_t color, uint8_t fsize)
-{
-
-  // tft.unloadFont();
-  delay(25);
-  if (fsize == 16)
-  {
-    // tft.loadFont(sfpt_r16);
-  }
-  else if (fsize == 18)
-  {
-    // tft.loadFont(sfpt_r18);
-  }
-  else if (fsize == 20)
-  {
-    // tft.loadFont(sfpd_r20);
-  }
-  else if (fsize == 24)
-  {
-    // tft.loadFont(sfpd_r24);
-  }
-  else
-  {
-    // tft.loadFont(sfpt_r16);
-  }
-  // tft.setCursor(x, y);
-  // tft.setTextWrap(true);
-  // // tft.setTextColor(TFT_BLACK, TFT_BLACK);
-  // // tft.print(oldsdata);
-  // // tft.fillScreen(TFT_BLACK);
-  // // tft.setTextColor(color, TFT_BLACK);
-
-  // // tft.print(tl);
-  // tft.print(text);
-  oldsdata = text;
-
-  // tft.unloadFont();
-  delay(25);
-  // tft.loadFont(sfpt_r14);
-}
-
-void printtextcs(
-    String text, uint16_t color, uint8_t fsize)
-{
-
-  // tft.unloadFont();
-  delay(25);
-  if (fsize == 16)
-  {
-    // tft.loadFont(sfpt_r16);
-  }
-  else if (fsize == 18)
-  {
-    // tft.loadFont(sfpt_r18);
-  }
-  else if (fsize == 20)
-  {
-    // tft.loadFont(sfpd_r20);
-  }
-  else if (fsize == 24)
-  {
-    // tft.loadFont(sfpd_r24);
-  }
-  else
-  {
-    // tft.loadFont(sfpt_r16);
-  }
-  // tft.setCursor(cx, cy);
-  // tft.setTextWrap(true);
-  // // tft.setTextColor(TFT_BLACK, TFT_BLACK);
-  // // tft.print(oldsdata);
-  // tft.fillScreen(TFT_BLACK);
-  int tl = text.length();
-  int cymr = map(tl, 10, 100, 80, 15);
-  // tft.setCursor(cx, random(1, cymr));
-  // tft.setTextColor(color, TFT_BLACK);
-
-  // // tft.print(tl);
-  // tft.print(text);
-  oldsdata = text;
-
-  // tft.unloadFont();
-  delay(25);
-  // tft.loadFont(sfpt_r14);
-}
-
 void printTextWin(int winx, int winy, int width, int height, String text, bool drawframe)
 {
   display.setRotation(3);
@@ -1227,21 +1149,41 @@ void javaneseFace()
     word1 = "\n   kurang\n      ";
     word2 = minuteTOword(currentMinute);
   }
-  // String allword = Dino[day()];
-  String allword = Dino[timeClient.getDay()];
-  allword += " ";
-  allword += pasaran[jumlahhari() % 5];
-  allword += "\n";
-  allword += getWuku();
-  allword += "\n==============\n";
+  // String pasaranWuku = Dino[day()];
+  String pasaranWuku = Dino[timeClient.getDay()];
+  pasaranWuku += " ";
+  pasaranWuku += pasaran[jumlahhari() % 5];
+  pasaranWuku += "\n";
+  pasaranWuku += getWuku();
+  // pasaranWuku += "\n==============\n";
+
+  // display.setTextWrap(true);
+  // Serial.printf("pw  : %s ppw : %s\n", pasaranWuku, prev_pasaranWuku);
+  Serial.print(pasaranWuku);
+  Serial.print(" >< ");
+  Serial.println(prev_pasaranWuku);
+  if (!pasaranWuku.equals(prev_pasaranWuku) && pasaranWuku.length() < 5)
+  {
+    Serial.println("update pasaran");
+    prev_pasaranWuku = pasaranWuku;
+    // printTextWin(0, 0, 200, 32, pasaranWuku, false);
+    // printInWin(0, 0, 200, 32, 0, 0, pasaranWuku, true);
+  }
+
+  // printInWin(0, 0, 200, 32, 0, 0, pasaranWuku, true);
   String triword = word + word1 + word2;
   // triword.replace(" ", "");
-  allword += triword;
-  // printTextWin(0, 0, 200, 32, allword, false);
+  // pasaranWuku += triword;
+
+  int16_t tbx, tby;
+  uint16_t tbw, tbh;
+  // display.getTextBounds(triword, 0, 0, &tbx, &tby, &tbw, &tbh);
+  // printTextWin(0, 32, 200, 200 - 32, triword, true);
+  // printInWin(0, 32, 200, 200 - 32, 0, random(0, 20), triword, true);
+  // printTextWin(0, 0, 200, 32, pasaranWuku, false);
 
   // display.setFont(&FreeMonoBold24pt7b);
-  display.setTextWrap(true);
-  printText2(0, random(16, 30), 12, allword, true);
+  // printText2(0, random(16, 30), 12, pasaranWuku, true);
   // if (currentMinute < 40)
   // {
   //   if (currentMinute == 30)

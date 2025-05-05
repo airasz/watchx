@@ -42,7 +42,7 @@ String const bulan[] =
      "Agustus", "September", "Oktober", "November", "Desember"};
 auto tomorow = false;
 uint8_t imnt, iday;
-
+String prev_pasaranWuku = "";
 int ID_;
 uint32_t tmpDigit[7][5][2] = {
     {{0, 0},
