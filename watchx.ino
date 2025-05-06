@@ -94,13 +94,6 @@
 #define FMB12 &FreeMonoBold12pt7b
 #define FMB18 &FreeMonoBold18pt7b
 #define FMB24 &FreeMonoBold24pt7b
-
-#define FMO9 &FreeMonoOblique9pt7b
-#define FMO12 &FreeMonoOblique12pt7b
-#define FMO18 &FreeMonoOblique18pt7b
-#define FMO24 &FreeMonoOblique24pt7b
-
-#define FMBO9 &FreeMonoBoldOblique9pt7b
 #define FMBO12 &FreeMonoBoldOblique12pt7b
 #define FMBO18 &FreeMonoBoldOblique18pt7b
 #define FMBO24 &FreeMonoBoldOblique24pt7b
@@ -336,7 +329,7 @@ File dbFile;
 // ESP32 CS(SS)=5,SCL(SCK)=18,SDA(MOSI)=23,BUSY=15,RES(RST)=2,DC=0
 
 // 1.54'' EPD Module
-GxEPD2_BW<GxEPD2_154_D67, GxEPD2_154_D67::HEIGHT> display(GxEPD2_154_D67(/*CS=5*/ 5, /*DC=*/17, /*RES=*/2, /*BUSY=*/15)); // GDEH0154D67 200x200, SSD1681
+GxEPD2_BW<GxEPD2_154_D67, GxEPD2_154_D67::HEIGHT> display(GxEPD2_154_D67(/*CS=5*/ 5, /*DC=*/17, /*RES=*/4, /*BUSY=*/15)); // GDEH0154D67 200x200, SSD1681
 
 int tmpNOTE = 110;
 // Option 1 (recommended): must use the hardware SPI pins
@@ -486,7 +479,6 @@ int clockFace = 3, oldClockFace = 0;
 int oldss = 0;
 void loop()
 {
-
   // while (serial.available() > 0)
   // {
   //   delay(10);
@@ -511,26 +503,26 @@ void loop()
   {
     if (second() == 1)
       drawClockFace();
-    else if (second() == 5)
-      display.hibernate();
-    if (dmode == 10)
-    {
-      // Serial.println("analog clock");
-      if (oldss != second())
+    else if (second() == 8)
+      // display.hibernate();
+      if (dmode == 10)
       {
-        oldss = second();
-        if (minute() % 10 == 0 && second() < 4)
+        // Serial.println("analog clock");
+        if (oldss != second())
         {
-          clockFace = random(5);
-          // tft.fillScreen(TFT_BLACK);
+          oldss = second();
+          if (minute() % 10 == 0 && second() < 4)
+          {
+            clockFace = random(5);
+            // tft.fillScreen(TFT_BLACK);
+          }
+          // analogClock(0);
+          // digitalClock(1);
+          // drawClockFace();
         }
-        // analogClock(0);
-        // digitalClock(1);
-        // drawClockFace();
-      }
 
-      // analogClock(0);
-    }
+        // analogClock(0);
+      }
     toScreenSleep++;
     // if (toScreenSleep > 10)
     // {
@@ -784,7 +776,6 @@ void proccesCMD(String data)
 
 void proccesData(String data)
 {
-
   if (data.length() > 4)
   {
     if (data.startsWith("noanim"))
@@ -854,7 +845,6 @@ void proccesData(String data)
 int cx = 0, cy = 15;
 void printWordWrap(String text, uint16_t color)
 {
-
   int tl = text.length();
   int cymr = map(tl, 10, 100, 80, 15);
   printSplitString(text, color);
@@ -878,7 +868,6 @@ void printSplitString(String text, uint16_t color)
 
 void printInWin(int winx, int winy, int width, int height, int cx, int cy, String text, bool flushwin)
 {
-
   display.setPartialWindow(winx, winy, width, height);
   // display.setFullWindow();
   display.firstPage();
@@ -917,7 +906,6 @@ void printTextWin(int winx, int winy, int width, int height, String text, bool d
 
 void printTextWin(int winx, int winy, int width, int height, int fontsize, String text, bool drawframe)
 {
-
   display.setRotation(3);
   // display.setFont(&FreeMonoBold9pt7b);
   display.setFont(FMB9);
@@ -1093,7 +1081,7 @@ void printClock()
 
   digitalWrite(2, LOW);
 
-  Serial.println(getWuku());
+  // Serial.println(getWuku());
   // Serial.printf("wuku : %s \n", getWuku());
   // printTextWin(random(60), random(60), 120, 120, date, true);
 }
@@ -1112,14 +1100,20 @@ void standartFace()
 
   showDayPray();
 }
-
+void javaneseFacee()
+{
+  // printText2(0, 100, "test", true);
+  digitalWrite(2, HIGH);
+  printTextWin(0, 0, 200, 32, "test", false);
+}
 void javaneseFace()
 {
-
-  // tnow = ttgo->rtc->getDateTime();
   int currentHour = timeClient.getHours();
   int currentMinute = timeClient.getMinutes();
   String word, word1, word2;
+  digitalWrite(2, HIGH);
+  // printText2(0, 100, "test", true);
+  delay(50);
   if (currentMinute < 40)
   {
     if (currentMinute == 30)
@@ -1150,7 +1144,7 @@ void javaneseFace()
     word2 = minuteTOword(currentMinute);
   }
   // String pasaranWuku = Dino[day()];
-  String pasaranWuku = Dino[timeClient.getDay()];
+  pasaranWuku = Dino[timeClient.getDay()];
   pasaranWuku += " ";
   pasaranWuku += pasaran[jumlahhari() % 5];
   pasaranWuku += "\n";
@@ -1159,15 +1153,19 @@ void javaneseFace()
 
   // display.setTextWrap(true);
   // Serial.printf("pw  : %s ppw : %s\n", pasaranWuku, prev_pasaranWuku);
-  Serial.print(pasaranWuku);
-  Serial.print(" >< ");
-  Serial.println(prev_pasaranWuku);
-  if (!pasaranWuku.equals(prev_pasaranWuku) && pasaranWuku.length() < 5)
+  // Serial.print(pasaranWuku);
+  // Serial.print(" >< ");
+  // Serial.println(prev_pasaranWuku);
+  // Serial.printf(" pasaranwuku length : %d \n", pasaranWuku.length());
+  display.setFont(FMB12);
+  display.setTextColor(GxEPD_BLACK);
+  int linespace = 46;
+  if (!pasaranWuku.equals(prev_pasaranWuku))
   {
     Serial.println("update pasaran");
     prev_pasaranWuku = pasaranWuku;
     // printTextWin(0, 0, 200, 32, pasaranWuku, false);
-    // printInWin(0, 0, 200, 32, 0, 0, pasaranWuku, true);
+    printInWin(0, 0, 200, linespace, 0, 0, pasaranWuku, true);
   }
 
   // printInWin(0, 0, 200, 32, 0, 0, pasaranWuku, true);
@@ -1179,78 +1177,10 @@ void javaneseFace()
   uint16_t tbw, tbh;
   // display.getTextBounds(triword, 0, 0, &tbx, &tby, &tbw, &tbh);
   // printTextWin(0, 32, 200, 200 - 32, triword, true);
-  // printInWin(0, 32, 200, 200 - 32, 0, random(0, 20), triword, true);
+  int nl = countNewlines(triword);
+  int sy = ((200 - linespace) / 2) - (nl * 10);
+  printInWin(0, linespace, 200, 200 - linespace, 0, random(sy, sy + 20), triword, true);
   // printTextWin(0, 0, 200, 32, pasaranWuku, false);
-
-  // display.setFont(&FreeMonoBold24pt7b);
-  // printText2(0, random(16, 30), 12, pasaranWuku, true);
-  // if (currentMinute < 40)
-  // {
-  //   if (currentMinute == 30)
-  //   {
-
-  //     word = minuteTOword(currentMinute);
-  //     word1 = "\n" + (currentHour == 23) ? "    " : "   ";
-  //     word2 = jamTOword(currentHour - ((currentHour == 23) ? 11 : (-1)));
-  //     // if (currentHour == 23)
-  //     // {
-  //     //   word = minuteTOword(currentMinute);
-  //     //   word1 = "\n    ";
-  //     //   word2 = jamTOword(currentHour - 11);
-  // Serial.printf(" hasil2 : %d \n", hasil2);
-  //     // }
-  //     // else
-  //     // {
-  //     //   word = minuteTOword(currentMinute);
-  //     //   word1 = "\n   ";
-  //     //   word2 = jamTOword(currentHour + 1);
-  //     // }
-  //   }
-  //   else if (currentMinute == 0 || currentMinute == 15)
-  //   {
-  //     word = jamTOword(currentHour);
-  //     word1 = " \n    ";
-  //     word2 = minuteTOword(currentMinute);
-  //   }
-  //   else
-  //   {
-  //     word = jamTOword(currentHour);
-  //     word1 = "\n  luwih        ";
-  //     word2 = minuteTOword(currentMinute);
-  //   }
-  // }
-  // else
-  // {
-
-  //   word = jamTOword(currentHour + 1);
-  //   word1 = "\n   kurang      ";
-  //   word2 = minuteTOword(currentMinute);
-  // }
-  // int totalLength = word.length() + word1.length() + word2.length();
-  // Serial.printf("clock face text, total length =  %d\n ", totalLength);
-  // if (totalLength > 35 && totalLength < 45)
-  //   tft->setCursor(random(0, 3), random(60, 65));
-  // else if (totalLength > 15 && totalLength < 36)
-  //   tft->setCursor(random(0, 3), random(80, 110));
-  // else
-  //   tft->setCursor(random(0, 3), random(90, 110));
-
-  // // tft->setCursor(random(3, 12), random(50, 110));
-  // (word.length() > 7) ? setupFont18() : setupFont24();
-  // tft->print(word);
-
-  // setupFont12();
-  // tft->setTextColor(COLORS_LIGHT[random(10)]);
-  // tft->print(word1);
-  // if (word1.length() > 5)
-  // {
-  //   setupFont18();
-  //   tft->print(" \n");
-  // }
-
-  // (word2.length() > 10) ? setupFont12() : setupFont18();
-  // tft->setTextColor(COLORS_LIGHT[random(10)]);
-  // tft->print(word2);
 }
 
 double getJulianDay(int year, int month, int day)
@@ -1261,7 +1191,7 @@ double getJulianDay(int year, int month, int day)
     month += 12;
   }
   int a = floor(year / 100.0);
-https: // idn00166.tigoals212.com/football/2734765-bahia-vs-botafogo-rj.html
+  // https: // idn00166.tigoals212.com/football/2734765-bahia-vs-botafogo-rj.html
   int b = 2 - a + floor(a / 4.0);
   return floor(365.25 * (year + 4716)) + floor(30.6001 * (month + 1)) + day + b - 1524.5;
 }
@@ -1300,29 +1230,41 @@ String getWuku()
   int wu_m = (timeClient.getMonth() - 1) * 4; // step 1
   if (wu_m == 0)
     return "exit wum=0";
-  Serial.printf(" wum : %d \n", wu_m);
+  // Serial.printf(" wum : %d \n", wu_m);
 
   // tgl dibagi 7 dibulatkan
   int wu_d = round(timeClient.getDate() / 7); // step 2
-  Serial.printf(" wud : %d \n", wu_d);
+  // Serial.printf(" wud : %d \n", wu_d);
 
   // int hasil = (wu_m + wu_d > 30) ? (wu_m + wu_d) - 30 : wu_m + wu_d; // step3
   // jumlahkan hasil keduanya
   int hasil = wu_m + wu_d;
 
-  Serial.printf(" hasil : %d \n", hasil);
+  // Serial.printf(" hasil : %d \n", hasil);
   int hasil2 = hasil + nnilaiwuku();
-  Serial.printf(" hasil2 : %d \n", hasil2);
+  // Serial.printf(" hasil2 : %d \n", hasil2);
   if (hasil2 > 30)
     hasil2 -= 30;
-  Serial.printf(" hasil2 fix 30 : %d \n", hasil2);
+  // Serial.printf(" hasil2 fix 30 : %d \n", hasil2);
   int hasil3 = hasil2 + blnpenyesuaian[timeClient.getMonth()];
-  Serial.printf("hasil3 : %d \n", hasil3);
+  // Serial.printf("hasil3 : %d \n", hasil3);
   return wuku[hasil3 - 1];
 }
 int nnilaiwuku()
 {
   int rtr = nilaiwuku[(timeClient.getYear() - 2020)];
-  Serial.printf("now year %d nnilaiwuku : %d \n", timeClient.getYear(), rtr);
+  // Serial.printf("now year %d nnilaiwuku : %d \n", timeClient.getYear(), rtr);
   return rtr;
+}
+int countNewlines(String str)
+{
+  int count = 0;
+  for (int i = 0; i < str.length(); i++)
+  {
+    if (str.charAt(i) == '\n')
+    {
+      count++;
+    }
+  }
+  return count;
 }
