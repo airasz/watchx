@@ -52,3 +52,20 @@ void beepnblink()
         prevmill2 = millis();
     }
 }
+
+void blinkingtopray()
+{
+    if (verycritical)
+    {
+        if (millis() > prevmill2 + btp)
+        {
+            digitalWrite(2, HIGH);
+        }
+        if (millis() > prevmill2 + (btp + 100))
+        {
+            btp = 500 + (t * 100);
+            digitalWrite(2, LOW);
+            prevmill2 = millis();
+        }
+    }
+}

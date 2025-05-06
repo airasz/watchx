@@ -246,3 +246,7 @@ String const prayName[5][2] = {
 int updateDPray = 0;
 bool scfc = false; // save if clock face change
 int hh, mm, ss;
+int btp = 900;
+bool verycritical = false;
+
+int t; // second elapse next to praytime

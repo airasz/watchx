@@ -120,8 +120,9 @@ void showDayPray(void)
     printText2(0, 32, infoJadwal, false);
   }
 }
-int t;
+// int t; // second elapse next to praytime
 bool critical = false;
+// bool verycritical = false;
 void close_incoming_event()
 { // close_incoming_event code here
   display.setTextColor(GxEPD_BLACK);
@@ -144,10 +145,12 @@ void close_incoming_event()
         // infoJadwal += String(buff);
         // printText(infoJadwal, false);
         critical = (t < 15 && t > 0) ? 1 : 0;
+        verycritical = (t < 4 && t > 0) ? 1 : 0;
       }
       else
       {
         critical = 0;
+        verycritical = 0;
       }
 
     } // else{t=0;}
@@ -158,8 +161,9 @@ void close_incoming_event()
       char buff[40];
       sprintf(buff, "%d menit\nmenjelang %s", t, prayName[i][0]);
       // infoJadwal += String(buff);
-      printText(infoJadwal, false);
+      // printText(infoJadwal, false);
       critical = (t < 15 && t > 0) ? 1 : 0;
+      verycritical = (t < 4 && t > 0) ? 1 : 0;
     }
   }
 

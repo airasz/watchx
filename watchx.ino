@@ -503,26 +503,26 @@ void loop()
   {
     if (second() == 1)
       drawClockFace();
-    else if (second() == 8)
-      // display.hibernate();
-      if (dmode == 10)
+    else if (second() == 2)
+      display.hibernate();
+    if (dmode == 10)
+    {
+      // Serial.println("analog clock");
+      if (oldss != second())
       {
-        // Serial.println("analog clock");
-        if (oldss != second())
+        oldss = second();
+        if (minute() % 10 == 0 && second() < 4)
         {
-          oldss = second();
-          if (minute() % 10 == 0 && second() < 4)
-          {
-            clockFace = random(5);
-            // tft.fillScreen(TFT_BLACK);
-          }
-          // analogClock(0);
-          // digitalClock(1);
-          // drawClockFace();
+          clockFace = random(5);
+          // tft.fillScreen(TFT_BLACK);
         }
-
         // analogClock(0);
+        // digitalClock(1);
+        // drawClockFace();
       }
+
+      // analogClock(0);
+    }
     toScreenSleep++;
     // if (toScreenSleep > 10)
     // {
@@ -538,7 +538,8 @@ void loop()
     }
     prevmill = millis();
   }
-  beepnblink(); // beepnblink.ino
+  beepnblink();     // beepnblink.ino
+  blinkingtopray(); // beepnblink.ino
 } // end loop
 void fixClock()
 {
@@ -879,7 +880,9 @@ void printInWin(int winx, int winy, int width, int height, int cx, int cy, Strin
     //   display.drawRect(winx, winy, width, height, GxEPD_BLACK);
     // display.drawCircle(50, 50, 40, GxEPD_BLACK);
 
-    display.setCursor(winx + cx, winy + 10 + cy);
+    int yy = getTextProp("y", text) * (-1);
+    Serial.printf(" yy : %d \n", yy);
+    display.setCursor(winx + cx, winy + yy + cy);
     display.print(text);
   } while (display.nextPage());
 }
@@ -898,8 +901,9 @@ void printTextWin(int winx, int winy, int width, int height, String text, bool d
     if (drawframe)
       display.drawRect(winx, winy, width, height, GxEPD_BLACK);
     // display.drawCircle(50, 50, 40, GxEPD_BLACK);
-
-    display.setCursor(winx, winy + 10);
+    int yy = getTextProp("y", text) * (-1);
+    Serial.printf(" yy : %d \n", yy);
+    display.setCursor(winx, winy + yy);
     display.print(text);
   } while (display.nextPage());
 }
@@ -1075,10 +1079,10 @@ void printClock()
   Serial.println("print clock");
   fixClock();
 
-  // standartFace();
-  javaneseFace();
+  standartFace();
+  // javaneseFace();
   // printText(0, random(50, 150), date);
-
+  Serial.printf("now : %d \n", now());
   digitalWrite(2, LOW);
 
   // Serial.println(getWuku());
@@ -1178,8 +1182,12 @@ void javaneseFace()
   // display.getTextBounds(triword, 0, 0, &tbx, &tby, &tbw, &tbh);
   // printTextWin(0, 32, 200, 200 - 32, triword, true);
   int nl = countNewlines(triword);
-  int sy = ((200 - linespace) / 2) - (nl * 10);
-  printInWin(0, linespace, 200, 200 - linespace, 0, random(sy, sy + 20), triword, true);
+  int fh = getTextProp("h", triword);
+  Serial.printf(" fh : %d \n", fh);
+  int sy = ((200 - linespace) / 2) - (nl * fh);
+  Serial.printf(" sy : %d \n", sy);
+  // printInWin(0, linespace, 200, 200 - linespace, 0, random(sy, sy + 10), triword, true);
+  printInWin(0, linespace, 200, 200 - linespace, 0, fh / 2, triword, true);
   // printTextWin(0, 0, 200, 32, pasaranWuku, false);
 }
 
@@ -1267,4 +1275,22 @@ int countNewlines(String str)
     }
   }
   return count;
+}
+// x=cursor x
+int getTextProp(String p, String text)
+{
+
+  int16_t tbx, tby;
+  uint16_t tbw, tbh;
+  display.getTextBounds(text, 0, 0, &tbx, &tby, &tbw, &tbh);
+  int r = 0;
+  if (p.equals("x"))
+    r = tbx;
+  else if (p.equals("y"))
+    r = tby;
+  else if (p.equals("w"))
+    r = tbw;
+  else if (p.equals("h"))
+    r = tbh;
+  return r;
 }
