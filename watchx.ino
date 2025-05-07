@@ -1127,7 +1127,8 @@ void standartFace()
 {
   String date = timeClient.getFullFormattedTime();
   date = date.substring(0, (date.length() - 3)); // trim second
-  hh = timeClient.getHours(), mm = timeClient.getMinutes(), ss = timeClient.getSeconds();
+  // hh = timeClient.getHours(), mm = timeClient.getMinutes(), ss = timeClient.getSeconds();
+  hh = hour(), mm = minute(), ss = second();
   date.replace(" ", "\n");
   // printText(0, random(50, 150), date);
 
@@ -1146,8 +1147,11 @@ void javaneseFacee()
 }
 void javaneseFace()
 {
-  int currentHour = timeClient.getHours();
-  int currentMinute = timeClient.getMinutes();
+  // int currentHour = timeClient.getHours();
+  // int currentMinute = timeClient.getMinutes();
+  hh = hour(), mm = minute(), ss = second();
+  int currentHour = hour();
+  int currentMinute = minute();
   String word, word1, word2;
   digitalWrite(2, HIGH);
   // printText2(0, 100, "test", true);

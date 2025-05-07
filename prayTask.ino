@@ -186,6 +186,11 @@ String checkPray()
         sprintf(buff, "\n%d menit maneh %s", t, prayName[i][0]);
         rtr = String(buff);
         infoJadwal += String(buff);
+        verycritical = (t < 4 && t > 0) ? 1 : 0;
+      }
+      else
+      {
+        verycritical = 0;
       }
 
     } // else{t=0;}
@@ -195,10 +200,12 @@ String checkPray()
       char buff[40];
       sprintf(buff, "\n%d menit maneh %s", t, prayName[i][0]);
       rtr = String(buff);
+      verycritical = (t < 4 && t > 0) ? 1 : 0;
     }
   }
   if (!rtr.equals(""))
     rtr += "\n";
+  Serial.printf("verycritical : %s \n", (verycritical) ? "true" : "false");
   return rtr;
 }
 void dump()

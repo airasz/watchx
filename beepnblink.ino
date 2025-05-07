@@ -59,15 +59,22 @@ void blinkingtopray()
 {
     if (verycritical)
     {
-        if (millis() > prevmill2 + btp)
+        if (millis() == prevmill3 + btp)
         {
+            // Serial.print("===================blinking on");
             digitalWrite(2, HIGH);
         }
-        if (millis() > prevmill2 + (btp + 100))
+        if (millis() > prevmill3 + (btp + 100))
         {
+            // Serial.print("====================blinking off");
             btp = 500 + (t * 100);
             digitalWrite(2, LOW);
-            prevmill2 = millis();
+            prevmill3 = millis();
         }
+        // if (millis() > prevmill3 + 1000)
+        // {
+        //     Serial.println("blinking");
+        //     prevmill3 = millis();
+        // }
     }
 }
