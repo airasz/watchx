@@ -183,7 +183,7 @@ String checkPray()
       {
         t = dPraySche[i][1] - mm;
         char buff[25];
-        sprintf(buff, "%d menit maneh %s", t, prayName[i][0]);
+        sprintf(buff, "\n%d menit maneh %s", t, prayName[i][0]);
         rtr = String(buff);
         infoJadwal += String(buff);
       }
@@ -193,7 +193,7 @@ String checkPray()
     {
       t = dPraySche[i][1] + (60 - mm);
       char buff[40];
-      sprintf(buff, "%d menit maneh %s", t, prayName[i][0]);
+      sprintf(buff, "\n%d menit maneh %s", t, prayName[i][0]);
       rtr = String(buff);
     }
   }

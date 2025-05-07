@@ -476,7 +476,7 @@ char c;
 int toScreenSleep = 0;
 int maxWait = 20;
 String olddata = "";
-int clockFace = 0, oldClockFace = 0;
+int clockFace = 1, oldClockFace = 0;
 int oldss = 0;
 void loop()
 {
@@ -1183,7 +1183,7 @@ void javaneseFace()
   }
   // String pasaranWuku = Dino[day()];
   // pasaranWuku = Dino[timeClient.getDay()];
-  pasaranWuku = Dino[weekday()];
+  pasaranWuku = Dino[weekday() - 1];
   pasaranWuku += " ";
   pasaranWuku += pasaran[jumlahhari() % 5];
   pasaranWuku += "\n";
@@ -1222,8 +1222,10 @@ void javaneseFace()
   Serial.printf(" fh : %d \n", fh);
   int sy = ((200 - linespace) / 2) - (nl * fh);
   Serial.printf(" sy : %d \n", sy);
+  int cy = (checkPray() == "") ? fh / 2 : 0;
   // printInWin(0, linespace, 200, 200 - linespace, 0, random(sy, sy + 10), triword, true);
-  printInWin(0, linespace, 200, 200 - linespace, 0, fh / 2, triword, true);
+  // printInWin(0, linespace, 200, 200 - linespace, 0, fh / 2, triword, true);
+  printInWin(0, linespace, 200, 200 - linespace, 0, cy, triword, true);
   // printTextWin(0, 0, 200, 32, pasaranWuku, false);
 }
 
