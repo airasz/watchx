@@ -172,6 +172,35 @@ void close_incoming_event()
   Serial.print("critical = ");
   Serial.println(critical);
 }
+String checkPray()
+{
+  String rtr = "";
+  for (size_t i = 0; i < 4; i++)
+  {
+    if (hh == dPraySche[i][0])
+    {
+      if (mm < dPraySche[i][1])
+      {
+        t = dPraySche[i][1] - mm;
+        char buff[25];
+        sprintf(buff, "%d menit maneh %s", t, prayName[i][0]);
+        rtr = String(buff);
+        infoJadwal += String(buff);
+      }
+
+    } // else{t=0;}
+    if ((dPraySche[i][0] - hh == 1) && (mm > dPraySche[i][1]))
+    {
+      t = dPraySche[i][1] + (60 - mm);
+      char buff[40];
+      sprintf(buff, "%d menit maneh %s", t, prayName[i][0]);
+      rtr = String(buff);
+    }
+  }
+  if (!rtr.equals(""))
+    rtr += "\n";
+  return rtr;
+}
 void dump()
 {
 

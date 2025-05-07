@@ -455,7 +455,8 @@ void syncTime()
     // setTime(int hr, int min, int sec, int dy, int mnth, int yr)
     Serial.println("has internet, sync device with internet time");
     setTime(timeClient.getHours(), timeClient.getMinutes(), timeClient.getSeconds(),
-            timeClient.getDay(), timeClient.getMonth(), timeClient.getYear());
+            timeClient.getDate(), timeClient.getMonth(), timeClient.getYear());
+    Serial.printf("weekday : %d \n", timeClient.getDay()); // hari kesekian tiap minggu
     Serial.printf("day  : %d \n", timeClient.getDay());
     imnt = timeClient.getMonth(), iday = timeClient.getDate();
     Serial.printf("mnt : %d | day %d\n", imnt, iday);
@@ -475,7 +476,7 @@ char c;
 int toScreenSleep = 0;
 int maxWait = 20;
 String olddata = "";
-int clockFace = 3, oldClockFace = 0;
+int clockFace = 0, oldClockFace = 0;
 int oldss = 0;
 void loop()
 {
@@ -513,7 +514,7 @@ void loop()
         oldss = second();
         if (minute() % 10 == 0 && second() < 4)
         {
-          clockFace = random(5);
+          // clockFace = random(5);
           // tft.fillScreen(TFT_BLACK);
         }
         // analogClock(0);
@@ -547,7 +548,7 @@ void fixClock()
   {
     timeClient.update();
     setTime(timeClient.getHours(), timeClient.getMinutes(), timeClient.getSeconds(),
-            timeClient.getDay(), timeClient.getMonth(), timeClient.getYear());
+            timeClient.getDate(), timeClient.getMonth(), timeClient.getYear());
     imnt = timeClient.getMonth(), iday = timeClient.getDate();
   }
   else
@@ -688,7 +689,30 @@ void proccesCMD(String data)
       countblink = 0;
       angka = 7;
       Serial.println("startblinking");
-      setTime(h, m, s, 2, 7, 2021);
+      setTime(h, m, s, timeClient.getDate(), timeClient.getMonth(), timeClient.getYear());
+      data = "";
+      // setTime(timeClient.getHours(), timeClient.getMinutes(), timeClient.getSeconds(),
+      //             timeClient.getDay(), timeClient.getMonth(), timeClient.getYear());
+      prevmill2 = millis();
+      return;
+    }
+    else if (data.startsWith("setdate"))
+    {
+      int d = data.substring(8, 10).toInt();
+      int m = data.substring(11, 13).toInt();
+      int y = data.substring(14, 18).toInt();
+      updateSecondhand = false;
+      nblinking = 1;
+      blinking = true;
+      blinkduration = 9;
+      startblink = 9;
+      endblink = 10;
+      countblink = 0;
+      angka = 7;
+      Serial.println("startblinking");
+      // setTime(h, m, s, 2, 7, 2021);
+      setTime(timeClient.getHours(), timeClient.getMinutes(), timeClient.getSeconds(),
+              d, m, y);
       data = "";
       // setTime(timeClient.getHours(), timeClient.getMinutes(), timeClient.getSeconds(),
       //             timeClient.getDay(), timeClient.getMonth(), timeClient.getYear());
@@ -755,6 +779,7 @@ void proccesCMD(String data)
       else
       {
         int dmod = data.substring(6).toInt();
+      https: // www.goal.com/en/match/al-naft-vs-duhok/VxL4dxAH-wWwdSVLTwcV6
         if (dmod == 10 && dmode != 10)
           // tft.fillScreen(TFT_BLACK);
           if (dmod < 3 || dmod == 10)
@@ -1060,19 +1085,28 @@ void printText(String text)
 }
 void drawClockFace()
 {
+  fixClock();
+  Serial.printf("clockface : %d \n", clockFace);
+  Serial.printf("timelib :wday %d | day %d\n", weekday(), day());
+  Serial.printf("tclient :day %d | date %d\n", timeClient.getDay(), timeClient.getDate());
   if (clockFace == 0)
   {
-    // analogClock(clockFace);
-    printClock();
+    standartFace();
+  }
+  else if (clockFace == 1)
+  {
+    javaneseFace();
   }
   else
   {
-    printClock();
+    // printClock();
     if (second() % 10 == 0)
     {
       // digitFace(clockFace - 1);
     }
   }
+
+  digitalWrite(2, LOW);
 }
 void printClock()
 {
@@ -1148,7 +1182,8 @@ void javaneseFace()
     word2 = minuteTOword(currentMinute);
   }
   // String pasaranWuku = Dino[day()];
-  pasaranWuku = Dino[timeClient.getDay()];
+  // pasaranWuku = Dino[timeClient.getDay()];
+  pasaranWuku = Dino[weekday()];
   pasaranWuku += " ";
   pasaranWuku += pasaran[jumlahhari() % 5];
   pasaranWuku += "\n";
@@ -1163,7 +1198,7 @@ void javaneseFace()
   // Serial.printf(" pasaranwuku length : %d \n", pasaranWuku.length());
   display.setFont(FMB12);
   display.setTextColor(GxEPD_BLACK);
-  int linespace = 46;
+  int linespace = 50;
   if (!pasaranWuku.equals(prev_pasaranWuku))
   {
     Serial.println("update pasaran");
@@ -1174,6 +1209,7 @@ void javaneseFace()
 
   // printInWin(0, 0, 200, 32, 0, 0, pasaranWuku, true);
   String triword = word + word1 + word2;
+  triword += checkPray();
   // triword.replace(" ", "");
   // pasaranWuku += triword;
 
@@ -1208,40 +1244,42 @@ double getJulianDay(int year, int month, int day)
 int jumlahhari()
 {
   // DateTime now = RTC.now();
-  int d = timeClient.getDate();
-  int m = timeClient.getMonth();
-  int y = timeClient.getYear();
+  // int d = timeClient.getDate();
+  // int m = timeClient.getMonth();
+  // int y = timeClient.getYear();
+  int d = day();
+  int m = month();
+  int y = year();
   int hb[] = {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365};
   int ht = (y - 1970) * 365 - 1;
   int hs = hb[m - 1] + d;
   int kab = 0;
   int i;
   if (y % 4 == 0)
-  {
     if (m > 2)
-    {
       hs++;
-    }
-  }
   for (i = 1970; i < y; i++)
-  {
     if (i % 4 == 0)
-    {
       kab++;
-    }
-  }
+
   return (ht + hs + kab);
 }
 String getWuku()
 {
+
+  // timeClient.getDate=day();
+  // timeClient.getDay=weekday();
   // bulan kurangi 1 kali 4
-  int wu_m = (timeClient.getMonth() - 1) * 4; // step 1
+  // int wu_m = (timeClient.getMonth() - 1) * 4; // step 1
+  int wu_m = (month() - 1) * 4; // step 1
   if (wu_m == 0)
     return "exit wum=0";
   // Serial.printf(" wum : %d \n", wu_m);
 
   // tgl dibagi 7 dibulatkan
-  int wu_d = round(timeClient.getDate() / 7); // step 2
+  // int wu_d = round(timeClient.getDate() / 7); // step 2
+  // int wu_d = round((timeClient.getDate() - timeClient.getDay()) / 7); // step 2
+  int wu_d = round((day() - weekday()) / 7); // step 2
   // Serial.printf(" wud : %d \n", wu_d);
 
   // int hasil = (wu_m + wu_d > 30) ? (wu_m + wu_d) - 30 : wu_m + wu_d; // step3
@@ -1254,7 +1292,8 @@ String getWuku()
   if (hasil2 > 30)
     hasil2 -= 30;
   // Serial.printf(" hasil2 fix 30 : %d \n", hasil2);
-  int hasil3 = hasil2 + blnpenyesuaian[timeClient.getMonth()];
+  // int hasil3 = hasil2 + blnpenyesuaian[timeClient.getMonth()];
+  int hasil3 = hasil2 + blnpenyesuaian[month()];
   // Serial.printf("hasil3 : %d \n", hasil3);
   return wuku[hasil3 - 1];
 }

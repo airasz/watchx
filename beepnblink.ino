@@ -8,13 +8,14 @@ void beepnblink()
             if (blinking)
             {
                 countblink++;
-                // analogWrite(12, 255);
+                digitalWrite(2, HIGH);
                 // NEO.setPixelColor(0, NEO.Color(0, 170, 0));
                 // NEO.show();
                 // tone(BUZZER_PIN, tmpNOTE);
                 if (countblink > nblinking)
                 {
                     blinking = false;
+                    digitalWrite(2, LOW);
                     // analogWrite(12, 0);
                     // NEO.setPixelColor(0, 0);
                     // NEO.show();
@@ -29,6 +30,7 @@ void beepnblink()
             if (blinking)
             {
                 // analogWrite(12, 0);
+                digitalWrite(2, LOW);
                 // NEO.setPixelColor(0, 0);
                 // NEO.show();
                 // ledcWrite(BUZZER_CHANNEL, 0);
