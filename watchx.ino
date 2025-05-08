@@ -1227,6 +1227,7 @@ void javaneseFace()
   int sy = ((200 - linespace) / 2) - (nl * fh);
   Serial.printf(" sy : %d \n", sy);
   int cy = (checkPray() == "") ? fh / 2 : 0;
+  // triword += masehiKeHijriah();
   // printInWin(0, linespace, 200, 200 - linespace, 0, random(sy, sy + 10), triword, true);
   // printInWin(0, linespace, 200, 200 - linespace, 0, fh / 2, triword, true);
   printInWin(0, linespace, 200, 200 - linespace, 0, cy, triword, true);
