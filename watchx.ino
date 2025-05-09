@@ -476,7 +476,7 @@ char c;
 int toScreenSleep = 0;
 int maxWait = 20;
 String olddata = "";
-int clockFace = 1, oldClockFace = 0;
+int clockFace = 0, oldClockFace = 0;
 int oldss = 0;
 void loop()
 {
@@ -1127,9 +1127,12 @@ void standartFace()
 {
   String date = timeClient.getFullFormattedTime();
   date = date.substring(0, (date.length() - 3)); // trim second
+  // date += "\n ";
+  date += masehiKeHijriah();
   // hh = timeClient.getHours(), mm = timeClient.getMinutes(), ss = timeClient.getSeconds();
   hh = hour(), mm = minute(), ss = second();
-  date.replace(" ", "\n");
+  // date.replace(" ", "\n");
+
   // printText(0, random(50, 150), date);
 
   // printText(0, 12, date);

@@ -1,8 +1,8 @@
 double tahunBulan = 354.367068;
 double tahunMatahari = 365.25;
-
-String namaBulanHijriah[] = {"Muharram", "Safar", "Rabiul awal", "Rabiul akhir", "Jumadil awal", "Jumadil akhir", "Rajab", "Sya'ban", "Ramadhan", "Syawal", "Dzulkaidah", "Dzulhijjah"};
-String namaBulanMasehi[] = {"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"};
+String const bulanJawa[] = {"Suro", "Sapar", "Mulud", "Bakdo Mulud", "Jumadil Awal", "Jumadil Akhir", "Rejeb", "Ruwah ", "Poso", "Sawal", "Sela", "Besar"};
+String const namaBulanHijriah[] = {"Muharram", "Safar", "Rabiul awal", "Rabiul akhir", "Jumadil awal", "Jumadil akhir", "Rajab", "Sya'ban", "Ramadhan", "Syawal", "Dzulkaidah", "Dzulhijjah"};
+String const namaBulanMasehi[] = {"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"};
 uint16_t jumlahHariPerBulanHijriah[] = {0, 30, 59, 89, 118, 148, 177, 207, 236, 266, 295, 325, 354};
 uint16_t jumlahHariPerBulanMasehi[] = {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334};
 
@@ -33,9 +33,26 @@ uint32_t jumlahHariDariTanggal(byte tanggal, byte bulan, uint16_t tahun)
 String masehiKeHijriah()
 {
     int dateh, mh, yh;
-    uint16_t HariMasehi = jumlahHariDariTanggal(day(), month(), year());
+    uint8_t dday = 0, dmonth = 0;
+    int maxday = MaxDate[dmonth - 1];
+    dday = day(), dmonth = month();
+
+    if (ID_ == 4) // setelah maghrib
+    {
+        if (dday + 1 > maxday)
+        {
+            dmonth += 1;
+            dday = 1;
+        }
+        else
+        {
+            dday += 1;
+        }
+    }
+    uint16_t HariMasehi = jumlahHariDariTanggal(dday, dmonth, year() - 2000);
     uint16_t sisaHari;
     yh = floor(HariMasehi / tahunBulan);
+    Serial.printf("yh : %d \n", yh);
     sisaHari = HariMasehi - (tahunBulan * yh);
 
     for (byte i = 0; i < sizeof(jumlahHariPerBulanHijriah); i++)
@@ -51,5 +68,5 @@ String masehiKeHijriah()
     yh += 1420;
     char buff[25];
     // sprintf
-    return "\n" + String(dateh) + " " + String(namaBulanHijriah[mh - 1]) + " " + String(yh += 1420);
+    return "\n" + String(dateh) + " " + String(namaBulanHijriah[mh - 1]) + " " + String(yh);
 }
