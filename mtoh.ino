@@ -37,7 +37,7 @@ String masehiKeHijriah()
     int maxday = MaxDate[dmonth - 1];
     dday = day(), dmonth = month();
 
-    if (ID_ == 4) // setelah maghrib
+    if (ID_ == 4 || tomorow == 1) // setelah maghrib
     {
         if (dday + 1 > maxday)
         {

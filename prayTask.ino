@@ -47,7 +47,7 @@ void getPraytaskID(void)
   }
   // Serial.printf("hh %d\n ", hh);
   // Serial.printf("jdz %d\n ", jdz);+ "\n"
-  // Serial.printf("pray ID %d\n ", ID_);
+  Serial.printf("pray ID %d\n ", ID_);
 }
 void showDayPray(void)
 {
@@ -130,8 +130,9 @@ void close_incoming_event()
   // display.setFont(FF18);
   display.setFont(&FreeSans9pt7b);
 
-  for (size_t i = 0; i < 4; i++)
+  for (size_t i = 0; i < 5; i++)
   {
+    // Serial.printf("hh : %d  dpraysche %d\n", hh, dPraySche[i][0]);
     if (hh == dPraySche[i][0])
     {
       if (mm < dPraySche[i][1])
