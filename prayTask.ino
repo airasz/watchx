@@ -47,7 +47,7 @@ void getPraytaskID(void)
   }
   // Serial.printf("hh %d\n ", hh);
   // Serial.printf("jdz %d\n ", jdz);+ "\n"
-  Serial.printf("pray ID %d\n ", ID_);
+  // Serial.printf("pray ID %d\n ", ID_);
 }
 void showDayPray(void)
 {
@@ -59,7 +59,7 @@ void showDayPray(void)
   //   display.print("Jadwal solat ");
 
   // printText2(0, 26, "Jadwal solat ", false);
-  infoJadwal = "Jadwal solat ";
+  infoJadwal = "\nJadwal solat ";
   int maxday = MaxDate[imnt - 1]; // get maximun day in current month
 
   String datej;
@@ -102,13 +102,13 @@ void showDayPray(void)
   display.setCursor(0, 60);
   for (uint8_t i = 0; i < 5; i++)
   {
-    sdata = getDailyJWS(i);
-    display.setTextColor(GxEPD_BLACK);
-    // display.setFont(FF14);
-    // display.setFont(&FreeSans9pt7b);
-    display.setFont(FMB9);
+
     if (i == ID_)
-      sdata = ">" + sdata;
+      sdata = getDailyJWS(i, true);
+    else
+      sdata = getDailyJWS(i, false);
+    // if (i == ID_)
+    //   sdata = ">" + sdata;
     // printText("> " + sdata + "\n", false);
     infoJadwal += sdata + "\n";
     // display.print("> " + sdata + "\n");
@@ -132,7 +132,6 @@ void close_incoming_event()
 
   for (size_t i = 0; i < 5; i++)
   {
-    // Serial.printf("hh : %d  dpraysche %d\n", hh, dPraySche[i][0]);
     if (hh == dPraySche[i][0])
     {
       if (mm < dPraySche[i][1])
@@ -141,6 +140,7 @@ void close_incoming_event()
         // display.printf("%d menit\nmenjelang %s", t, prayName[i][0]);
         char buff[40];
         sprintf(buff, "%d menit\nmenjelang %s", t, prayName[i][0]);
+        infoJadwal = infoJadwal.substring(1);
         infoJadwal += String(buff);
         // printText(infoJadwal, false);
         // infoJadwal += String(buff);
@@ -161,6 +161,7 @@ void close_incoming_event()
       //       display.printf("%d menit\nmenjelang %s", t, prayName[i][0]);
       char buff[40];
       sprintf(buff, "%d menit\nmenjelang %s", t, prayName[i][0]);
+      infoJadwal = infoJadwal.substring(1);
       // infoJadwal += String(buff);
       // printText(infoJadwal, false);
       critical = (t < 15 && t > 0) ? 1 : 0;

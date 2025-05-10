@@ -86,7 +86,7 @@ uint16_t getpray(uint8_t mnt, uint8_t day, uint8_t prayID)
 }
 
 // return string
-String getDailyJWS(int id)
+String getDailyJWS(int id, bool goingTo)
 {
   // String jadwal = "";
   char jadwal[20];
@@ -106,12 +106,19 @@ String getDailyJWS(int id)
     }
   }
   String pname = prayName[id][0];
-  for (size_t i = prayName[id][0].length(); i < 8; i++)
+  int maxwspace = 8;
+  // if (goingTo)
+  //   maxwspace = 7;
+  for (size_t i = prayName[id][0].length(); i < maxwspace; i++)
   {
     pname += " ";
   }
 
-  sprintf(jadwal, "%s  %02i:%02i", pname, dPraySche[id][0], dPraySche[id][1]);
+  // if (goingTo)
+  //   pname += ">";
+
+  // sprintf(jadwal, "%s  %02i:%02i", pname, dPraySche[id][0], dPraySche[id][1]);
+  sprintf(jadwal, "%s %s%02i:%02i", pname, (goingTo) ? ">" : " ", dPraySche[id][0], dPraySche[id][1]);
   // switch (id)
   // {
   // case 0:
