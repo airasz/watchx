@@ -171,7 +171,11 @@ void setup(void)
   delay(200);
   noTone(BUZZER_PIN);
 
-  WiFi.begin("ASUS", "air46664");
+  // WiFi.begin("OFFLINE", "terbaik2025");
+  wifiMulti.addAP("OFFLINE", "terbaik2025");
+  wifiMulti.addAP("ASUS", "air46664");
+  wifiMulti.addAP("RMN20", "air46664");
+  // WiFi.begin("ASUS", "air46664");
   // printtextcs(0, 0, "Connecting to WiFi...", TFT_WHITE, 16);
   tb_display_print_String("\nConnecting to WiFi...", 20);
   while (WiFi.status() != WL_CONNECTED)
@@ -805,6 +809,10 @@ void printtextcs(
 
 void drawClockFace()
 {
+  if (year() == 1970)
+  {
+    syncTime();
+  }
   if (clockFace == 0)
   {
     analogClock(clockFace);

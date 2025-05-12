@@ -4,6 +4,7 @@
 
 #include <ESP8266Ping.h>
 #include <ESP8266WiFi.h>
+#include <ESP8266WiFiMulti.h>
 #include <LittleFS.h>
 
 WiFiUDP ntpUDP;
@@ -20,7 +21,7 @@ int patternSequences[20] = {
     15, 16, 17, 18, 19, 20};
 int patternSequencesSize = sizeof(patternSequences) / sizeof(patternSequences[0]);
 void shuffleArray(int *array, int size);
-
+ESP8266WiFiMulti wifiMulti;
 uint32_t tmpDigit[7][5][2] = {
     {{0, 0},
      {0, 0},
