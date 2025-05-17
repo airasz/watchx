@@ -546,10 +546,12 @@ void fixClock()
 {
   if (timeClient.getYear() == 1970)
   {
-    timeClient.update();
-    setTime(timeClient.getHours(), timeClient.getMinutes(), timeClient.getSeconds(),
-            timeClient.getDate(), timeClient.getMonth(), timeClient.getYear());
-    imnt = timeClient.getMonth(), iday = timeClient.getDate();
+    // timeClient.update();
+    // Serial.println("timeclient update");
+    // setTime(timeClient.getHours(), timeClient.getMinutes(), timeClient.getSeconds(),
+    //         timeClient.getDate(), timeClient.getMonth(), timeClient.getYear());
+    // imnt = timeClient.getMonth(), iday = timeClient.getDate();
+    syncTime();
   }
   else
   {
@@ -1126,6 +1128,7 @@ void printClock()
 void standartFace()
 {
   String date = timeClient.getFullFormattedTime();
+  Serial.println(date);
   date = date.substring(0, (date.length() - 3)); // trim second
   // date += "\n ";
   date += masehiKeHijriah();
