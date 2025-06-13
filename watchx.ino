@@ -479,7 +479,7 @@ char c;
 int toScreenSleep = 0;
 int maxWait = 20;
 String olddata = "";
-int clockFace = 0, oldClockFace = 0;
+int clockFace = 1, oldClockFace = 0;
 int oldss = 0;
 void loop()
 {
