@@ -64,7 +64,7 @@ String masehiKeHijriah()
             break;
         }
     }
-    dateh = sisaHari;
+    dateh = sisaHari + 1;
     yh += 1420;
     char buff[25];
     // sprintf

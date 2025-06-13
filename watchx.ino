@@ -428,6 +428,9 @@ void setup(void)
   delay(200);
 
   WiFi.begin("ASUS", "air46664");
+  // wifimulti.addAP("ASUS", "air46664");
+  // wifimulti.addAP("OFFLINE", "terbaik2025");
+  // wifimulti.addAP("RMN20", "air46664");
   // printtextcs(0, 0, "Connecting to WiFi...", TFT_WHITE, 16);
   while (WiFi.status() != WL_CONNECTED)
   {
@@ -1113,7 +1116,7 @@ void drawClockFace()
 void printClock()
 {
   Serial.println("print clock");
-  fixClock();
+  fixClock(); // check if not synced to internet time
 
   standartFace();
   // javaneseFace();
