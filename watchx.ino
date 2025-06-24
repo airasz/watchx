@@ -916,6 +916,30 @@ void printInWin(int winx, int winy, int width, int height, int cx, int cy, Strin
     display.print(text);
   } while (display.nextPage());
 }
+
+// white text on black background
+void printInWinRev(int winx, int winy, int width, int height, int cx, int cy, String text, bool flushwin)
+{
+  display.setPartialWindow(winx, winy, width, height);
+  // display.setFullWindow();
+  display.firstPage();
+  do
+  {
+    if (flushwin)
+    {
+      display.setTextColor(GxEPD_WHITE);
+      display.fillRect(winx, winy, width, height, GxEPD_BLACK);
+    }
+    // if (drawframe)
+    //   display.drawRect(winx, winy, width, height, GxEPD_BLACK);
+    // display.drawCircle(50, 50, 40, GxEPD_BLACK);
+
+    int yy = getTextProp("y", text) * (-1);
+    Serial.printf(" yy : %d \n", yy);
+    display.setCursor(winx + cx, winy + yy + cy);
+    display.print(text);
+  } while (display.nextPage());
+}
 void printTextWin(int winx, int winy, int width, int height, String text, bool drawframe)
 {
   display.setRotation(3);
@@ -1210,16 +1234,19 @@ void javaneseFace()
   // Serial.println(prev_pasaranWuku);
   // Serial.printf(" pasaranwuku length : %d \n", pasaranWuku.length());
   display.setFont(FMB12);
-  display.setTextColor(GxEPD_BLACK);
   int linespace = 50;
   if (!pasaranWuku.equals(prev_pasaranWuku))
   {
+    // display.fillRect(0, 0, 200, 45, GxEPD_BLACK);
+    // display.drawRect(4, 4, 40, 40, GxEPD_BLACK);
+    // display.drawCircle(50, 50, 40, GxEPD_BLACK);
+    // display.setTextColor(GxEPD_WHITE);
     Serial.println("update pasaran");
     prev_pasaranWuku = pasaranWuku;
     // printTextWin(0, 0, 200, 32, pasaranWuku, false);
-    printInWin(0, 0, 200, linespace, 0, 0, pasaranWuku, true);
+    printInWinRev(0, 0, 200, linespace, 0, 0, pasaranWuku, true);
   }
-
+  display.setTextColor(GxEPD_BLACK);
   // printInWin(0, 0, 200, 32, 0, 0, pasaranWuku, true);
   String triword = word + word1 + word2;
   triword += checkPray();
