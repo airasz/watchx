@@ -479,7 +479,7 @@ char c;
 int toScreenSleep = 0;
 int maxWait = 20;
 String olddata = "";
-int clockFace = 1, oldClockFace = 0;
+int clockFace = 2, oldClockFace = 0;
 int oldss = 0;
 void loop()
 {
@@ -1000,7 +1000,7 @@ void printTextWin(int winx, int winy, int width, int height, int fontsize, Strin
       display.drawRect(winx, winy, width, height, GxEPD_BLACK);
     // display.drawCircle(50, 50, 40, GxEPD_BLACK);
 
-    display.setCursor(winx, winy + 10);
+    display.setCursor(winx, winy + fontsize + 4);
     display.print(text);
   } while (display.nextPage());
 }
@@ -1126,6 +1126,10 @@ void drawClockFace()
   {
     javaneseFace();
   }
+  else if (clockFace == 2)
+  {
+    digitalClock();
+  }
   else
   {
     // printClock();
@@ -1136,6 +1140,12 @@ void drawClockFace()
   }
 
   digitalWrite(2, LOW);
+}
+void digitalClock()
+{
+  String clock = timeClient.getShortFormattedTime();
+  Serial.printf("clock : %s \n", clock.c_str());
+  printTextWin(0, 0, 200, 36, 24, clock, false);
 }
 void printClock()
 {
