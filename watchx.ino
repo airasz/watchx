@@ -326,6 +326,19 @@
 #include <FS.h>
 
 File dbFile;
+
+long prevmill = 0;
+String oldsdata;
+int tryrequest = 0;
+bool foundRadio = false;
+String data;
+char c;
+int toScreenSleep = 0;
+int maxWait = 20;
+String olddata = "";
+int clockFace = 1, oldClockFace = 0;
+int oldss = 0;
+
 // ESP32 CS(SS)=5,SCL(SCK)=18,SDA(MOSI)=23,BUSY=15,RES(RST)=2,DC=0
 
 // 1.54'' EPD Module
@@ -411,6 +424,26 @@ void setup(void)
   {
     Serial.println(F("An Error has occurred while mounting SPIFFS"));
   }
+
+  EEPROM.begin(EEPROM_SIZE);
+  EEPROM_readAnything(0, config); // get saved settings
+  if (config.magic_number != CONFIG_REVISION)
+  { // this will set it up for very first use
+
+    Serial.printf("magic wrong, was %ld, should be %ld\n", config.magic_number, CONFIG_REVISION);
+    config.magic_number = CONFIG_REVISION;
+
+    config.clockFace = 1; // default clock face
+
+    EEPROM_writeAnything(0, config);
+    int sz = sizeof(config);
+    Serial.print("config size used");
+    Serial.println(sz);
+    Serial.print("config size alocated");
+    Serial.println(EEPROM_SIZE);
+    EEPROM.commit();
+  }
+  clockFace = config.clockFace;
   // else
   // {
   //   startScreen(true, "success mount SPIFFS");
@@ -470,17 +503,6 @@ void syncTime()
     Serial.println("ping failed");
   }
 }
-long prevmill = 0;
-String oldsdata;
-int tryrequest = 0;
-bool foundRadio = false;
-String data;
-char c;
-int toScreenSleep = 0;
-int maxWait = 20;
-String olddata = "";
-int clockFace = 2, oldClockFace = 0;
-int oldss = 0;
 void loop()
 {
   // while (serial.available() > 0)
@@ -798,6 +820,20 @@ void proccesCMD(String data)
         // // tft.setTextSize(1);
         data = "";
         return;
+      }
+    }
+    else if (data.startsWith("save"))
+    {
+      // #save.clockface=1
+      String sdata = data.substring(6);
+      if (sdata.startsWith("clockface"))
+      {
+        int idata = sdata.substring(16).toInt();
+        if (idata >= 0 && idata <= 3)
+        {
+          clockFace = idata;
+          Serial.printf("save clockface to %d\n", clockFace);
+        }
       }
     }
 
@@ -1386,3 +1422,25 @@ int getTextProp(String p, String text)
     r = tbh;
   return r;
 }
+
+void savepref()
+{
+  if (config.clockFace != clockFace)
+  {
+    config.clockFace = clockFace;
+    writePref();
+    Serial.println("saved preferences");
+  }
+}
+
+void writePref()
+{
+  EEPROM_writeAnything(0, config);
+  EEPROM.commit();
+} // end of writePref
+
+// function for readPref
+void readPref()
+{
+  EEPROM_readAnything(0, config); // get saved settings
+} // end of readPref
