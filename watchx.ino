@@ -1259,7 +1259,7 @@ void javaneseFace()
   else
   {
     word = jamTOword(currentHour + 1);
-    word1 = "\n   kurang\n   ";
+    word1 = "\n   kurang\n";
     word2 = minuteTOword(currentMinute);
   }
   uint8_t spaceAdd = 0;
