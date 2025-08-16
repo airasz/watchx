@@ -1239,31 +1239,37 @@ void javaneseFace()
   {
     if (currentMinute == 30)
     {
-
       word = minuteTOword(currentMinute);
-      word1 = "\n" + (currentHour == 23) ? "    " : "   ";
+      word1 = "\n" + (currentHour == 23) ? " " : "";
       word2 = jamTOword(currentHour - ((currentHour == 23) ? 11 : (-1)));
     }
     else if (currentMinute == 0 || currentMinute == 15)
     {
       word = jamTOword(currentHour);
-      word1 = " \n    ";
+      word1 = " \n ";
       word2 = minuteTOword(currentMinute);
     }
     else
     {
       word = jamTOword(currentHour);
-      word1 = "\n  luwih\n   ";
+      word1 = "\n  luwih\n";
       word2 = minuteTOword(currentMinute);
     }
   }
   else
   {
-
     word = jamTOword(currentHour + 1);
-    word1 = "\n   kurang\n      ";
+    word1 = "\n   kurang\n   ";
     word2 = minuteTOword(currentMinute);
   }
+  uint8_t spaceAdd = 0;
+  spaceAdd = 6 - (word2.length() / 3);
+  Serial.printf("spaceadd : %d \n", spaceAdd);
+  if (word2.length() > 3)
+    for (int i = 0; i < (spaceAdd + 1); i++)
+    {
+      word1 += " ";
+    }
   // String pasaranWuku = Dino[day()];
   // pasaranWuku = Dino[timeClient.getDay()];
   pasaranWuku = Dino[weekday() - 1];
