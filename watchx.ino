@@ -1237,13 +1237,13 @@ void javaneseFace()
   delay(50);
   if (currentMinute < 40)
   {
-    if (currentMinute == 30)
+    if (currentMinute == 30) // exp: setengah pitu
     {
       word = minuteTOword(currentMinute);
       word1 = "\n" + (currentHour == 23) ? " " : "";
       word2 = jamTOword(currentHour - ((currentHour == 23) ? 11 : (-1)));
     }
-    else if (currentMinute == 0 || currentMinute == 15)
+    else if (currentMinute == 0 || currentMinute == 15) // exp pitu pas/ sprapat
     {
       word = jamTOword(currentHour);
       word1 = " \n ";
