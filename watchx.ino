@@ -1264,6 +1264,7 @@ void javaneseFace()
   }
   uint8_t spaceAdd = 0;
   spaceAdd = 6 - (word2.length() / 3);
+  Serial.printf("word2 lenght : %d \n", word2.length());
   Serial.printf("spaceadd : %d \n", spaceAdd);
   if (word2.length() > 3)
     for (int i = 0; i < (spaceAdd + 1); i++)
