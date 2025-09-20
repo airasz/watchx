@@ -1278,6 +1278,7 @@ void javaneseFace()
   pasaranWuku += pasaran[jumlahhari() % 5];
   pasaranWuku += "\n";
   pasaranWuku += getWuku();
+  Serial.printf(" wuku : %s \n", getWuku());
   // pasaranWuku += "\n==============\n";
 
   // display.setTextWrap(true);
@@ -1391,6 +1392,8 @@ String getWuku()
   // int hasil3 = hasil2 + blnpenyesuaian[timeClient.getMonth()];
   int hasil3 = hasil2 + blnpenyesuaian[month()];
   // Serial.printf("hasil3 : %d \n", hasil3);
+  Serial.printf("wuku index : %d \n", hasil3 - 1);
+  Serial.printf("wuku return : %s \n", wuku[hasil3 - 1]);
   return wuku[hasil3 - 1];
 }
 int nnilaiwuku()
