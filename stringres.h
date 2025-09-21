@@ -1,4 +1,8 @@
 
+const String wuku[] = {"Sinta", "Landep", "Wukir", "Kurantil", "Tolu", "Gumbreg", "Warigalit", "Warigagung",
+                       "Julungwangi", "Sungsang", "Galungan", "Kuningan", "Langkir", "Mandhasiya", "Julungpujud",
+                       "Pahang", "Kuruwelut", "Marakeh", "Tambir", "Madangkungan", "Maktal", "Wuye", "Manahil",
+                       "Prangbakat", "Bala", "Wugu", "Wayang", "Kulawu", "Dukut", "Watugunung"};
 // day name in javanese
 String const Dino[] = {"minggu", "Senen", "Seloso", "Rebo", "Kemis", "Jemuah", "Setu"};
 // five daily
@@ -21,10 +25,6 @@ String const menit[6][10] = {
     {"sepuluh", "songo", "wolu", "pitu", "enem",
      "limo", "papat", "telu", "loro", "siji"}};
 
-String const wuku[] = {"Sinta", "Landep", "Wukir", "Kurantil", "Tolu", "Gumbreg", "Warigalit", "Warigagung",
-                       "Julungwangi", "Sungsang", "Galungan", "Kuningan", "Langkir", "Mandhasiya", "Julungpujud",
-                       "Pahang", "Kuruwelut", "Marakeh", "Tambir", "Madangkungan", "Maktal", "Wuye", "Manahil",
-                       "Prangbakat", "Bala", "Wugu", "Wayang", "Kulawu", "Dukut", "Watugunung"};
 String jamTOword(int hour)
 {
         // hou
